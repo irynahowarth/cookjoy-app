@@ -1,6 +1,19 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 type Props = {}
+type RecipeProps = {
+  id: string;
+  title: string;
+  image?: string;
+  servings: number;
+  readyInMinutes: number;
+  cookingMinutes: number;
+  preparationMinutes: number;
+  dishTypes: string[];
+  instructions: string;
+  ingredients: [];
+}
 
 export default function Recipes({}: Props) {
   const [recipes, setRecipes] = React.useState([]);
@@ -17,8 +30,14 @@ export default function Recipes({}: Props) {
   },[])
  
 
-  const recipeElements = recipes.map(rec => (
-    <div key={rec.id}><h3>{rec.title}</h3></div>
+  const recipeElements = recipes.map((rec:RecipeProps) => (
+    <Link 
+      to={`/recipes/${rec.id}`} 
+      key={rec.id}
+      aria-label={`View details for ${rec.title}`}
+    >
+      <div><p>{rec.title}</p></div>
+    </Link>
   ))
   return (
     <div>

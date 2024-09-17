@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Recipes from "./pages/Recipes";
 import "./server"
+import RecipeDetail from "./pages/RecipeDetail";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/' element={<Home />}/>
         <Route path='/about' element={<About />}/>
         <Route path='/recipes' element={<Recipes />}/>
+        <Route path='/recipes/:id' element={<RecipeDetail />}/>
       </Routes>
     </BrowserRouter>
   )
