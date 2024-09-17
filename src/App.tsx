@@ -6,22 +6,19 @@ import About from "./pages/About";
 import Recipes from "./pages/Recipes";
 import "./server"
 import RecipeDetail from "./pages/RecipeDetail";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <BrowserRouter>
-      <header>
-        <h1><Link to='/'>CookJoy</Link></h1>
-        <nav>
-          <Link to="/about">About</Link>
-          <Link to="/recipes">Recipes</Link>
-        </nav>
-      </header>
+      
       <Routes>
-        <Route path='/' element={<Home />}/>
-        <Route path='/about' element={<About />}/>
-        <Route path='/recipes' element={<Recipes />}/>
-        <Route path='/recipes/:id' element={<RecipeDetail />}/>
+        <Route element={<Layout />}>
+          <Route path='/' element={<Home />}/>
+          <Route path='/about' element={<About />}/>
+          <Route path='/recipes' element={<Recipes />}/>
+          <Route path='/recipes/:id' element={<RecipeDetail />}/>
+        </Route>
       </Routes>
     </BrowserRouter>
   )
