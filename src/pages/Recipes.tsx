@@ -2,18 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 type Props = {}
-type RecipeProps = {
-  id: string;
-  title: string;
-  image?: string;
-  servings: number;
-  readyInMinutes: number;
-  cookingMinutes: number;
-  preparationMinutes: number;
-  dishTypes: string[];
-  instructions: string;
-  ingredients: [];
-}
+
 
 export default function Recipes({}: Props) {
   const [recipes, setRecipes] = React.useState([]);

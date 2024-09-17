@@ -19,7 +19,8 @@ export default function RecipeDetail({}: Props) {
   },[params.id])
   return (
     <div>
-      {recipe? (
+      {
+      recipe ? (
         <div>
           <h2>{recipe.title}</h2>
         </div>
