@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
 
 type Props = {}
 
@@ -16,17 +16,24 @@ export default function CreateRecipeDetail({}: Props) {
     fetchData()
       .catch(console.error);
 
-  },[params.id])   
+  },[params.id]);
+  
+  if (!currentRecipe) {
+    return <h2>Recipe is loading...</h2>
+  }
+  
   return (
     <div>
-      {
-      currentRecipe ? (
         <div>
           <h2>{currentRecipe.title}</h2>
           <img src={currentRecipe.image} width={150} />
-          
         </div>
-      ) : <h2>Recipe is loading...</h2>}
+        <nav>
+          <NavLink to="." end>Info</NavLink>
+          <NavLink to="photos">Photos</NavLink>
+          <NavLink to="notes">Notes</NavLink>
+        </nav>
+      <Outlet context={currentRecipe}/>
     </div>
   )
 }
