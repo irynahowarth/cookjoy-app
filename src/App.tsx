@@ -7,17 +7,25 @@ import Recipes from "./pages/Recipes";
 import "./server"
 import RecipeDetail from "./pages/RecipeDetail";
 import Layout from "./components/Layout";
+import Dashboard from "./pages/Create/Dashboard";
+import Reviews from "./pages/Create/Reviews";
+import CreateLayout from "./components/CreateLayout";
 
 function App() {
   return (
     <BrowserRouter>
       
       <Routes>
-        <Route element={<Layout />}>
-          <Route path='/' element={<Home />}/>
-          <Route path='/about' element={<About />}/>
-          <Route path='/recipes' element={<Recipes />}/>
-          <Route path='/recipes/:id' element={<RecipeDetail />}/>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<Home />}/>
+          <Route path='about' element={<About />}/>
+          <Route path='recipes' element={<Recipes />}/>
+          <Route path='recipes/:id' element={<RecipeDetail />}/>
+          
+          <Route path='create' element={<CreateLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path='reviews' element={<Reviews />}/>
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
