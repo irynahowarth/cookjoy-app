@@ -11,4 +11,5 @@ interface RecipeProps{
     dishTypes: string[];
     instructions: string;
     ingredients: [];
+    createId: string;
   }

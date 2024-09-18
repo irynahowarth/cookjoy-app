@@ -8,6 +8,7 @@ export default function CreateLayout({}: Props) {
    <>
     <nav>
       <Link to=".">Dashboard</Link>
+      <Link to="./recipes">Recipes</Link>
       <Link to="./reviews">Reviews</Link>
       </nav>
     <Outlet/>

@@ -10,6 +10,8 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Create/Dashboard";
 import Reviews from "./pages/Create/Reviews";
 import CreateLayout from "./components/CreateLayout";
+import CreateRecipes from "./pages/Create/CreateRecipes";
+import CreateRecipeDetail from "./pages/Create/CreateRecipeDetail";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           
           <Route path='create' element={<CreateLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path='recipes' element={<CreateRecipes />} />
+            <Route path='recipes/:id' element={<CreateRecipeDetail />}/>
             <Route path='reviews' element={<Reviews />}/>
           </Route>
         </Route>
