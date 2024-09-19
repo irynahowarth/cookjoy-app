@@ -15,6 +15,7 @@ import CreateRecipeDetail from "./pages/Create/CreateRecipeDetail";
 import CreateRecipeInfo from "./pages/Create/CreateRecipeInfo";
 import CreateRecipeNotes from "./pages/Create/CreateRecipeNotes";
 import CreateRecipePhotos from "./pages/Create/CreateRecipePhotos";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       
       <Routes>
         <Route path="/" element={<Layout />}>
+          
           <Route index element={<Home />}/>
           <Route path="about" element={<About />}/>
           <Route path="recipes" element={<Recipes />}/>
@@ -37,6 +39,7 @@ function App() {
               <Route path="photos" element={<CreateRecipePhotos />}/>
             </Route>
           </Route>
+          <Route path="*" element={<PageNotFound/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
