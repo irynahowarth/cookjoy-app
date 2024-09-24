@@ -10,6 +10,7 @@ export default function Header({}: Props) {
           <Link to="/create">Create</Link>
           <Link to="/about">About</Link>
           <Link to="/recipes">Recipes</Link>
+          <Link to="/login">Login</Link>
         </nav>
       </header>
   )

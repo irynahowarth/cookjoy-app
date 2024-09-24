@@ -20,6 +20,7 @@ import CreateRecipeInfo from "./pages/Create/CreateRecipeInfo";
 import CreateRecipeNotes from "./pages/Create/CreateRecipeNotes";
 import CreateRecipePhotos from "./pages/Create/CreateRecipePhotos";
 import PageNotFound from "./pages/PageNotFound";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -32,6 +33,7 @@ const router = createBrowserRouter(createRoutesFromElements(
           errorElement={<Error/>}
       />
       <Route path="recipes/:id" element={<RecipeDetail />}/>
+      <Route path="login" element={<Login />}/>
   
       <Route path="create" element={<CreateLayout />}>
         <Route index element={<Dashboard />} />
