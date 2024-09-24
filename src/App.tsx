@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, RouterProvider, createBrowserRouter, createRoutesFromElements, Routes, Route, Link } from "react-router-dom";
+import {  RouterProvider, 
+          createBrowserRouter, 
+          createRoutesFromElements, 
+          Route} from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Recipes, {loader, loader as RecipesLoader} from "./pages/Recipes";
 import "./server"
 import RecipeDetail from "./pages/RecipeDetail";
 import Layout from "./components/Layout";
+import Error from "./components/Error";
 import Dashboard from "./pages/Create/Dashboard";
 import Reviews from "./pages/Create/Reviews";
 import CreateLayout from "./components/CreateLayout";
@@ -21,7 +25,12 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />}/>
       <Route path="about" element={<About />}/>
-      <Route path="recipes" element={<Recipes />} loader={RecipesLoader}/>
+      <Route 
+          path="recipes" 
+          element={<Recipes />}
+          loader={RecipesLoader}
+          errorElement={<Error/>}
+      />
       <Route path="recipes/:id" element={<RecipeDetail />}/>
   
       <Route path="create" element={<CreateLayout />}>

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Link, useSearchParams, useLoaderData } from 'react-router-dom';
 import { getRecipes } from '../api';
 
@@ -13,16 +13,10 @@ export function loader(){
 
 export default function Recipes({}: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [error, setError] = React.useState(null)
 
   const recipes = useLoaderData()
 
   const typeFilter = searchParams.get("type")
-  
-
-  if(error){
-    return <h2 aria-live="assertive">There was an error:{error.message} </h2>
-  }
 
   
   const displayRecipes = typeFilter 
