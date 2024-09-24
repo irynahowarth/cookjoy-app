@@ -6,9 +6,9 @@ import {  RouterProvider,
           Route} from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Recipes, {loader, loader as RecipesLoader} from "./pages/Recipes";
+import Recipes, {loader as recipesLoader} from "./pages/Recipes";
 import "./server"
-import RecipeDetail from "./pages/RecipeDetail";
+import RecipeDetail, {loader as recipeDetailsLoader} from "./pages/RecipeDetail";
 import Layout from "./components/Layout";
 import Error from "./components/Error";
 import Dashboard from "./pages/Create/Dashboard";
@@ -29,10 +29,14 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route 
           path="recipes" 
           element={<Recipes />}
-          loader={RecipesLoader}
+          loader={recipesLoader}
           errorElement={<Error/>}
       />
-      <Route path="recipes/:id" element={<RecipeDetail />}/>
+      <Route 
+          path="recipes/:id" 
+          element={<RecipeDetail />}
+          loader={recipeDetailsLoader}
+      />
       <Route path="login" element={<Login />}/>
   
       <Route path="create" element={<CreateLayout />}>

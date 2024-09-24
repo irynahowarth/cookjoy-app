@@ -1,22 +1,15 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useLoaderData, useParams } from 'react-router-dom'
+import {getRecipes} from '../api'
 
 type Props = {}
 
+export function loader({params}){
+  return getRecipes(params.id)
+}
+
 export default function RecipeDetail({}: Props) {
-  const params = useParams();
-  const [recipe, setRecipe] = React.useState(null)
-  React.useEffect(()=>{
-    const fetchData = async() => {
-      const data = await fetch(`/api/recipes/${params.id}`);
-      const json = await data.json();
-      setRecipe(json.recipes)
-    };
-
-    fetchData()
-      .catch(console.error);
-
-  },[params.id])
+  const recipe = useLoaderData();
   return (
     <div>
       {

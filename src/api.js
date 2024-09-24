@@ -1,5 +1,6 @@
-export async function getRecipes(){
-    const res  = await fetch("api/recipes");
+export async function getRecipes(id){
+    const url = id ? `api/recipes/${id}` : "api/recipes"
+    const res  = await fetch(url);
     if(!res.ok){
         throw{
             message: "Failed to fetch recipes",
