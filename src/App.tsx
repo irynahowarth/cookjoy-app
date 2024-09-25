@@ -21,6 +21,7 @@ import CreateRecipeNotes from "./pages/Create/CreateRecipeNotes";
 import CreateRecipePhotos from "./pages/Create/CreateRecipePhotos";
 import PageNotFound from "./pages/PageNotFound";
 import Login from "./pages/Login";
+import {requireAuth} from "./utils"
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -37,15 +38,22 @@ const router = createBrowserRouter(createRoutesFromElements(
           element={<RecipeDetail />}
           loader={recipeDetailsLoader}
       />
-      <Route path="login" element={<Login />} />
-  
       <Route 
-          path="create" 
-          element={<CreateLayout />}
-          loader={createRecipesLoader}
-          >
-        <Route index element={<Dashboard />}  loader={async ()=> null}/>
-        <Route path="reviews" element={<Reviews />} loader={async ()=> null}/>
+          path="login" 
+          element={<Login />} 
+      />
+  
+      <Route path="create" element={<CreateLayout />} >
+        <Route 
+          index 
+          element={<Dashboard />}  
+          loader={async ()=> await requireAuth()}
+        />
+        <Route 
+          path="reviews" 
+          element={<Reviews />} 
+          loader={async ()=> await requireAuth()}
+        />
         <Route 
             path="recipes" 
             element={<CreateRecipes />} 
@@ -59,10 +67,18 @@ const router = createBrowserRouter(createRoutesFromElements(
           <Route 
             index 
             element={<CreateRecipeInfo />}
-            loader={async ()=> null}
+            loader={async ()=> await requireAuth()}
           />
-          <Route path="notes" element={<CreateRecipeNotes />} loader={async ()=> null}/>
-          <Route path="photos" element={<CreateRecipePhotos />} loader={async ()=> null}/>
+          <Route 
+            path="notes" 
+            element={<CreateRecipeNotes />} 
+            loader={async ()=> await requireAuth()}
+          />
+          <Route 
+            path="photos" 
+            element={<CreateRecipePhotos />} 
+            loader={async ()=> await requireAuth()}
+          />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound/>}/>

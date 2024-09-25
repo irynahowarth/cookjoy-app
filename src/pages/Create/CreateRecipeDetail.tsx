@@ -1,11 +1,12 @@
 import React from 'react'
 import { NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom';
 import {getCreateRecipes} from "../../api"
+import {requireAuth} from "../../utils"
 
 type Props = {}
 
-export function loader({params}){
-  console.log(params.id)
+export async function loader({params}){
+  await requireAuth()
   return getCreateRecipes(params.id)
 }
 
