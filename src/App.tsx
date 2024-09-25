@@ -14,8 +14,8 @@ import Error from "./components/Error";
 import Dashboard from "./pages/Create/Dashboard";
 import Reviews from "./pages/Create/Reviews";
 import CreateLayout from "./components/CreateLayout";
-import CreateRecipes from "./pages/Create/CreateRecipes";
-import CreateRecipeDetail from "./pages/Create/CreateRecipeDetail";
+import CreateRecipes, {loader as createRecipesLoader} from "./pages/Create/CreateRecipes";
+import CreateRecipeDetail, {loader as createRecipeDetailsLoader} from "./pages/Create/CreateRecipeDetail";
 import CreateRecipeInfo from "./pages/Create/CreateRecipeInfo";
 import CreateRecipeNotes from "./pages/Create/CreateRecipeNotes";
 import CreateRecipePhotos from "./pages/Create/CreateRecipePhotos";
@@ -37,16 +37,32 @@ const router = createBrowserRouter(createRoutesFromElements(
           element={<RecipeDetail />}
           loader={recipeDetailsLoader}
       />
-      <Route path="login" element={<Login />}/>
+      <Route path="login" element={<Login />} />
   
-      <Route path="create" element={<CreateLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="reviews" element={<Reviews />}/>
-        <Route path="recipes" element={<CreateRecipes />} />
-        <Route path="recipes/:id" element={<CreateRecipeDetail />}>
-          <Route index element={<CreateRecipeInfo />}/>
-          <Route path="notes" element={<CreateRecipeNotes />}/>
-          <Route path="photos" element={<CreateRecipePhotos />}/>
+      <Route 
+          path="create" 
+          element={<CreateLayout />}
+          loader={createRecipesLoader}
+          >
+        <Route index element={<Dashboard />}  loader={async ()=> null}/>
+        <Route path="reviews" element={<Reviews />} loader={async ()=> null}/>
+        <Route 
+            path="recipes" 
+            element={<CreateRecipes />} 
+            loader={createRecipesLoader} 
+        />
+        <Route 
+            path="recipes/:id" 
+            element={<CreateRecipeDetail />}
+            loader={createRecipeDetailsLoader}
+        >
+          <Route 
+            index 
+            element={<CreateRecipeInfo />}
+            loader={async ()=> null}
+          />
+          <Route path="notes" element={<CreateRecipeNotes />} loader={async ()=> null}/>
+          <Route path="photos" element={<CreateRecipePhotos />} loader={async ()=> null}/>
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound/>}/>

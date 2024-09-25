@@ -1,22 +1,16 @@
 import React from 'react'
-import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useLoaderData, useParams } from 'react-router-dom';
+import {getCreateRecipes} from "../../api"
 
 type Props = {}
 
+export function loader({params}){
+  console.log(params.id)
+  return getCreateRecipes(params.id)
+}
+
 export default function CreateRecipeDetail({}: Props) {
-  const params = useParams();
-  const [currentRecipe, setCurrentRecipe] = React.useState(null)
-  React.useEffect(()=>{
-    const fetchData = async() => {
-      const data = await fetch(`/api/create/recipes/${params.id}`);
-      const json = await data.json();
-      setCurrentRecipe(json.recipes)
-    };
-
-    fetchData()
-      .catch(console.error);
-
-  },[params.id]);
+  const currentRecipe = useLoaderData();
   
   if (!currentRecipe) {
     return <h2>Recipe is loading...</h2>
