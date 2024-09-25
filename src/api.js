@@ -1,5 +1,5 @@
 export async function getRecipes(id){
-    const url = id ? `api/recipes/${id}` : "api/recipes"
+    const url = id ? `/api/v1/recipes/${id}` : "/api/v1/recipes"
     const res  = await fetch(url);
     if(!res.ok){
         throw{
@@ -14,8 +14,7 @@ export async function getRecipes(id){
 
 
 export async function getCreateRecipes(id){
-    const url = id ? `api/create/recipes/${id}` : "api/create/recipes"
-    console.log(url)
+    const url = id ? `/api/v1/create/recipes/${id}` : "/api/v1/create/recipes"
     const res  = await fetch(url);
     if(!res.ok){
         throw{

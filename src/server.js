@@ -70,7 +70,7 @@ createServer({
 
     },
     routes(){
-        this.namespace = "api"
+        this.namespace = "/api/v1/"
         this.logging = false
 
         this.get("/recipes",(schema, request)=>{
