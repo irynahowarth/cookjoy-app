@@ -1,8 +1,9 @@
-import { createServer, Model } from "miragejs";
+import { createServer, Model, Response } from "miragejs";
 
 createServer({
     models: {
         recipes: Model,
+        users: Model
     },
     seeds(server){
         server.create("recipe", 
@@ -66,7 +67,8 @@ createServer({
                         {name: "zest of lemon", amount:1, unit: "tbsp"},
                     ],
                     createId: "222",
-                })
+                }),
+        server.create("user",{id:"111", email:"user@google.com", password:"12345", name:"Jane"})
 
     },
     routes(){
@@ -89,6 +91,20 @@ createServer({
         this.get("/create/recipes/:id", (schema, request)=>{
             const id = request.params.id
             return schema.recipes.findBy({id, createId: "111"})
+        })
+
+        this.post("/login", (schema, request)=>{
+            const {email, password} = JSON.parse(request.requestBody)
+            const foundUser = schema.users.findBy({email, password})
+            if(!foundUser){
+                return new Response(401, {}, { message: "There is no user with your email and password!"})
+            }
+            console.log(foundUser)
+            foundUser.password = undefined
+            return {
+                user: foundUser,
+                token: "This is your Tokens"
+            }
         })
     }
 })

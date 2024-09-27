@@ -26,3 +26,19 @@ export async function getCreateRecipes(id){
     const data = await res.json();
     return data.recipes;
 }
+
+export async function loginUser(cred){
+    const res = await fetch("/api/v1/login",
+        {method: "post", body: JSON.stringify(cred)}
+    )
+    const data = await res.json()
+
+    if(!res.ok){
+        throw {
+            message: data.message,
+            statusText: res.statusText,
+            status: res.status
+        }
+    }
+    return data
+}

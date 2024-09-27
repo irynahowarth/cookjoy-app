@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLoaderData } from 'react-router-dom'
+import {loginUser} from '../api'
 
 type Props = {}
 
@@ -13,9 +14,11 @@ export default function Login({}: Props) {
 
   const message = useLoaderData()
 
-  function handleSubmit(e){
+  async function handleSubmit(e){
     e.preventDefault()
-    console.log(loginFormData)
+    const res = await loginUser(loginFormData)
+    const data = await res
+    console.log(data)
   }
 
   function handleChange(e){
