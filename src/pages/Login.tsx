@@ -1,10 +1,17 @@
 import React from 'react'
+import { useLoaderData } from 'react-router-dom'
 
 type Props = {}
+
+export function loader({request}){
+   return new URL(request.url).searchParams.get("message")
+}
 
 export default function Login({}: Props) {
   
   const [loginFormData, setLoginFormData] = React.useState({email: "", password: ""})
+
+  const message = useLoaderData()
 
   function handleSubmit(e){
     e.preventDefault()
@@ -20,6 +27,7 @@ export default function Login({}: Props) {
   return (
     <div>
         <h2>Log in to your accout</h2>
+        {message && <h3>{message}</h3>}
         <form onSubmit={handleSubmit}>
             <label htmlFor="email">Email</label>
             <input 
