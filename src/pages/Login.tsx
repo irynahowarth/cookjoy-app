@@ -11,14 +11,24 @@ export function loader({request}){
 export default function Login({}: Props) {
   
   const [loginFormData, setLoginFormData] = React.useState({email: "", password: ""})
+  const [status, setStatus] = React.useState("idle")
+  const [error, setError] = React.useState(null)
 
   const message = useLoaderData()
 
   async function handleSubmit(e){
     e.preventDefault()
-    const res = await loginUser(loginFormData)
-    const data = await res
-    console.log(data)
+    setStatus("submitting")
+    setError(null)
+    try{
+      const res = await loginUser(loginFormData)
+      const data = await res
+      console.log(data)
+    } catch(err){
+      setError(err)
+    } finally{
+      setStatus("idle")
+    }
   }
 
   function handleChange(e){
@@ -31,6 +41,7 @@ export default function Login({}: Props) {
     <div>
         <h2>Log in to your accout</h2>
         {message && <h3>{message}</h3>}
+        {error && <h3>{error.message}</h3>}
         <form onSubmit={handleSubmit}>
             <label htmlFor="email">Email</label>
             <input 
@@ -50,7 +61,7 @@ export default function Login({}: Props) {
                 value={loginFormData.password}
                 onChange={handleChange}
             />
-            <button type="submit">Log in</button>
+            <button disabled={status=== "submitting"}>Log in</button>
         </form>
     </div>
   )
