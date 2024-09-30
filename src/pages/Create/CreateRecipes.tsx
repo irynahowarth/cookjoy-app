@@ -5,8 +5,8 @@ import {requireAuth} from "../../utils"
 
 type Props = {}
 
-export async function loader(){
-  await requireAuth()
+export async function loader({request}){
+  await requireAuth(request)
   return getCreateRecipes();
 }
 

@@ -49,12 +49,12 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route 
           index 
           element={<Dashboard />}  
-          loader={async ()=> await requireAuth()}
+          loader={async ({request})=> await requireAuth(request)}
         />
         <Route 
           path="reviews" 
           element={<Reviews />} 
-          loader={async ()=> await requireAuth()}
+          loader={async ({request})=> await requireAuth(request)}
         />
         <Route 
             path="recipes" 
@@ -69,17 +69,17 @@ const router = createBrowserRouter(createRoutesFromElements(
           <Route 
             index 
             element={<CreateRecipeInfo />}
-            loader={async ()=> await requireAuth()}
+            loader={async ({request})=> await requireAuth(request)}
           />
           <Route 
             path="notes" 
             element={<CreateRecipeNotes />} 
-            loader={async ()=> await requireAuth()}
+            loader={async ({request})=> await requireAuth(request)}
           />
           <Route 
             path="photos" 
             element={<CreateRecipePhotos />} 
-            loader={async ()=> await requireAuth()}
+            loader={async ({request})=> await requireAuth(request)}
           />
         </Route>
       </Route>

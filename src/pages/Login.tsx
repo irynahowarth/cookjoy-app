@@ -11,10 +11,12 @@ export async function action({request}){
   const formData =  await request.formData();
   const email = formData.get("email")
   const password = formData.get("password")
+  const pathname = 
+    new URL(request.url).searchParams.get("redirectTo") || "/create"
   try{
     const data = await loginUser({email,password})
     localStorage.setItem("userLogin", "true")
-    const res = redirect("/create")
+    const res = redirect(pathname)
     res.body = true;
     return res
   } catch(err){
