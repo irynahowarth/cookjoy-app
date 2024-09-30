@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, redirect, useLoaderData, useNavigate } from 'react-router-dom'
+import { Form, redirect, useActionData, useLoaderData, useNavigation } from 'react-router-dom'
 import {loginUser} from '../api'
 
 type Props = {}
@@ -11,34 +11,21 @@ export async function action({request}){
   const formData =  await request.formData();
   const email = formData.get("email")
   const password = formData.get("password")
-  const data = await loginUser({email,password})
-  localStorage.setItem("userLogin", "true")
-  const res = redirect("/create")
-  res.body = true;
-  return res
+  try{
+    const data = await loginUser({email,password})
+    localStorage.setItem("userLogin", "true")
+    const res = redirect("/create")
+    res.body = true;
+    return res
+  } catch(err){
+    return err
+  }
 }
 
 export default function Login({}: Props) {
-  const [status, setStatus] = React.useState("idle")
-  const [error, setError] = React.useState(null)
-
+  const error = useActionData()
   const message = useLoaderData()
-  const navigate = useNavigate()
-
-  async function handleSubmit(e){
-    e.preventDefault()
-    setStatus("submitting")
-    setError(null)
-    try{
-      const res = await loginUser(loginFormData)
-      const data = await res
-      console.log(data)
-    } catch(err){
-      setError(err)
-    } finally{
-      setStatus("idle")
-    }
-  }
+  const navigate = useNavigation()
 
 
 
@@ -62,7 +49,12 @@ export default function Login({}: Props) {
                 type="password" 
                 placeholder='Enter your password'
             />
-            <button disabled={status=== "submitting"}>Log in</button>
+            <button disabled={navigate.state=== "submitting"}>
+              {navigate.state === "submitting"
+                ? "Logging in..." 
+                : "Log in"
+              }
+            </button>
         </Form>
     </div>
   )
