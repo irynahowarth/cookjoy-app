@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, useLoaderData, useNavigate } from 'react-router-dom'
+import { Form, redirect, useLoaderData, useNavigate } from 'react-router-dom'
 import {loginUser} from '../api'
 
 type Props = {}
@@ -12,8 +12,10 @@ export async function action({request}){
   const email = formData.get("email")
   const password = formData.get("password")
   const data = await loginUser({email,password})
-  console.log(data)
-  return null
+  localStorage.setItem("userLogin", "true")
+  const res = redirect("/create")
+  res.body = true;
+  return res
 }
 
 export default function Login({}: Props) {
@@ -45,7 +47,7 @@ export default function Login({}: Props) {
         <h2>Log in to your accout</h2>
         {message && <h3>{message}</h3>}
         {error && <h3>{error.message}</h3>}
-        <Form method="post">
+        <Form method="post" replace>
             <label htmlFor="email">Email</label>
             <input 
                 name="email"
