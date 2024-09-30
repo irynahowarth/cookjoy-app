@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLoaderData } from 'react-router-dom'
+import { Form, useLoaderData, useNavigate } from 'react-router-dom'
 import {loginUser} from '../api'
 
 type Props = {}
@@ -7,14 +7,21 @@ type Props = {}
 export function loader({request}){
    return new URL(request.url).searchParams.get("message")
 }
+export async function action({request}){
+  const formData =  await request.formData();
+  const email = formData.get("email")
+  const password = formData.get("password")
+  const data = await loginUser({email,password})
+  console.log(data)
+  return null
+}
 
 export default function Login({}: Props) {
-  
-  const [loginFormData, setLoginFormData] = React.useState({email: "", password: ""})
   const [status, setStatus] = React.useState("idle")
   const [error, setError] = React.useState(null)
 
   const message = useLoaderData()
+  const navigate = useNavigate()
 
   async function handleSubmit(e){
     e.preventDefault()
@@ -31,26 +38,20 @@ export default function Login({}: Props) {
     }
   }
 
-  function handleChange(e){
-    const {name, value} = e.target
-    setLoginFormData(prev => ({
-        ...prev, [name]:value
-    }))
-  }
+
+
   return (
     <div>
         <h2>Log in to your accout</h2>
         {message && <h3>{message}</h3>}
         {error && <h3>{error.message}</h3>}
-        <form onSubmit={handleSubmit}>
+        <Form method="post">
             <label htmlFor="email">Email</label>
             <input 
                 name="email"
                 id="email"
                 type="email" 
                 placeholder='Enter your email address'
-                value={loginFormData.email}
-                onChange={handleChange}
             />
             <label htmlFor="password">Password</label>
             <input 
@@ -58,11 +59,9 @@ export default function Login({}: Props) {
                 id="password"
                 type="password" 
                 placeholder='Enter your password'
-                value={loginFormData.password}
-                onChange={handleChange}
             />
             <button disabled={status=== "submitting"}>Log in</button>
-        </form>
+        </Form>
     </div>
   )
 }

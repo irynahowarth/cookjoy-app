@@ -20,7 +20,7 @@ import CreateRecipeInfo from "./pages/Create/CreateRecipeInfo";
 import CreateRecipeNotes from "./pages/Create/CreateRecipeNotes";
 import CreateRecipePhotos from "./pages/Create/CreateRecipePhotos";
 import PageNotFound from "./pages/PageNotFound";
-import Login, {loader as loginloader} from "./pages/Login";
+import Login, {loader as loginLoader, action as loginAction} from "./pages/Login";
 import {requireAuth} from "./utils"
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -41,7 +41,8 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route 
           path="login" 
           element={<Login />} 
-          loader={loginloader}
+          loader={loginLoader}
+          action={loginAction}
       />
   
       <Route path="create" element={<CreateLayout />} >
