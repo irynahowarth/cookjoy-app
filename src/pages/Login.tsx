@@ -15,7 +15,7 @@ export async function action({request}){
     new URL(request.url).searchParams.get("redirectTo") || "/create"
   try{
     const data = await loginUser({email,password})
-    localStorage.setItem("userLogin", "true")
+    localStorage.setItem("user", "true")
     const res = redirect(pathname)
     res.body = true;
     return res

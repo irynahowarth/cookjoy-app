@@ -22,8 +22,10 @@ import CreateRecipePhotos from "./pages/Create/CreateRecipePhotos";
 import PageNotFound from "./pages/PageNotFound";
 import Login, {loader as loginLoader, action as loginAction} from "./pages/Login";
 import {requireAuth} from "./utils"
+import { AuthProvider } from "./hooks/useAuth";
 
 const router = createBrowserRouter(createRoutesFromElements(
+   
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />}/>
       <Route path="about" element={<About />}/>
@@ -85,11 +87,14 @@ const router = createBrowserRouter(createRoutesFromElements(
       </Route>
       <Route path="*" element={<PageNotFound/>}/>
   </Route>
+  
 ));
 
 function App() {
   return (
-    <RouterProvider router={router}/>
+    <AuthProvider>   
+      <RouterProvider router={router}/>
+    </AuthProvider>
   )
 }
 
