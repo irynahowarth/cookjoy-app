@@ -21,7 +21,9 @@ import CreateRecipeNotes from "./pages/Create/CreateRecipeNotes";
 import CreateRecipePhotos from "./pages/Create/CreateRecipePhotos";
 import PageNotFound from "./pages/PageNotFound";
 import Login, {loader as loginLoader, action as loginAction} from "./pages/Login";
-import {requireAuth} from "./utils"
+import {requireAuth} from "./context/authService"
+import {AuthProvider } from './context/auth'
+import RequireAuth from "./RequireAuth";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -45,16 +47,17 @@ const router = createBrowserRouter(createRoutesFromElements(
           action={loginAction}
       />
   
-      <Route path="create" element={<CreateLayout />} >
+      <Route path="create" element={
+        <RequireAuth redirectTo="/login">
+          <CreateLayout />  
+        </RequireAuth>} >
         <Route 
           index 
           element={<Dashboard />}  
-          loader={async ({request})=> await requireAuth(request)}
         />
         <Route 
           path="reviews" 
           element={<Reviews />} 
-          loader={async ({request})=> await requireAuth(request)}
         />
         <Route 
             path="recipes" 
@@ -69,17 +72,14 @@ const router = createBrowserRouter(createRoutesFromElements(
           <Route 
             index 
             element={<CreateRecipeInfo />}
-            loader={async ({request})=> await requireAuth(request)}
           />
           <Route 
             path="notes" 
             element={<CreateRecipeNotes />} 
-            loader={async ({request})=> await requireAuth(request)}
           />
           <Route 
             path="photos" 
             element={<CreateRecipePhotos />} 
-            loader={async ({request})=> await requireAuth(request)}
           />
         </Route>
       </Route>
@@ -89,7 +89,9 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 function App() {
   return (
-    <RouterProvider router={router}/>
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider>
   )
 }
 

@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
+import useAuth from '../context/auth'
 
 type Props = {}
 
 export default function Header({}: Props) {
+  const {isAuthenticated, logout} = useAuth();
+  console.log(isAuthenticated)
   return (
     <header>
         <h1><Link to='/'>CookJoy</Link></h1>
@@ -10,7 +13,10 @@ export default function Header({}: Props) {
           <Link to="/create">Create</Link>
           <Link to="/about">About</Link>
           <Link to="/recipes">Recipes</Link>
-          <Link to="/login">Login</Link>
+          {!isAuthenticated 
+          ? <Link to="/login">Log In</Link>
+          : <Link to="." onClick={logout}>Log Out</Link>
+          }
         </nav>
       </header>
   )
