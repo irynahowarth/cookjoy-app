@@ -21,7 +21,6 @@ import CreateRecipeNotes from "./pages/Create/CreateRecipeNotes";
 import CreateRecipePhotos from "./pages/Create/CreateRecipePhotos";
 import PageNotFound from "./pages/PageNotFound";
 import Login, {loader as loginLoader, action as loginAction} from "./pages/Login";
-import {requireAuth} from "./context/authService"
 import {AuthProvider } from './context/auth'
 import RequireAuth from "./RequireAuth";
 

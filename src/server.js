@@ -99,7 +99,6 @@ createServer({
             if(!foundUser){
                 return new Response(401, {}, { message: "There is no user with your email and password!"})
             }
-            console.log(foundUser)
             foundUser.password = undefined
             return {
                 user: foundUser,

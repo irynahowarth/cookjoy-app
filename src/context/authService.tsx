@@ -1,15 +1,9 @@
-import { redirect } from "react-router-dom";
-
-export async function requireAuth(request){
-    const pathname = new URL(request.url).pathname 
-    const isLoggedIn = localStorage.getItem("userLogin")
-
-    if(!isLoggedIn){
-        const res = redirect(
-            `/login?message=Please login to proceed!&redirectTo=${pathname}`)
-        res.body = true;
-        throw res
+export const loginService = (credentials) => {
+    if (credentials.email === 'user@user.com' && credentials.password === '123') {
+      return { success: true, user: { name: 'Admin' } };
+    } else {
+      throw(
+        { success:false, message: 'Invalid credetials'})
     }
-    return null
-}
+  };  
   

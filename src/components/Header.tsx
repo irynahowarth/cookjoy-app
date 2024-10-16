@@ -5,7 +5,6 @@ type Props = {}
 
 export default function Header({}: Props) {
   const {isAuthenticated, logout} = useAuth();
-  console.log(isAuthenticated)
   return (
     <header>
         <h1><Link to='/'>CookJoy</Link></h1>
