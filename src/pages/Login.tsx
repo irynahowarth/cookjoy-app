@@ -32,7 +32,7 @@ export default function Login({}: Props) {
 
   React.useEffect(()=>{
     if(actionData && !actionData.status){
-      login()
+      login(actionData.user)
       nav('/create')
     }
   },[actionData])

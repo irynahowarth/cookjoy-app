@@ -3,6 +3,6 @@ import useAuth from './context/auth';
 
 
 export default function RequireAuth({children, redirectTo}) {
-  const {isAuthenticated} = useAuth()
-  return isAuthenticated? children : <Navigate to={redirectTo}/>
+  const {user} = useAuth()
+  return user? children : <Navigate to={redirectTo}/>
 }

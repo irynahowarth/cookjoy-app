@@ -1,8 +1,9 @@
 import React from 'react'
+import { useLocalStorage } from './useLocalStorage';
 
 export const AuthContext = React.createContext(
   {
-    isAuthenticated: false,
+    user: null,
     login: () => {},
     logout: () => {}
 }
@@ -15,19 +16,26 @@ export default function useAuth() {
 }
 
 export function AuthProvider({ children }){
+  const [user, setUser] = useLocalStorage('user', null)
 
-  const [isAuthenticated, setAuthenticated] = React.useState(false);
-
-  const login = () => {
-    console.log('login')
-    setAuthenticated(true);
+  const login = async (data) => {
+    setUser(data)
   }
 
   const logout = () => {
-      setAuthenticated(false);
+      setUser(null);
   }
+
+  const value = React.useMemo(
+    ()=>({
+      user,
+      login,
+      logout
+    }),[user]
+  )
+
   return (
-      <AuthContext.Provider value={{isAuthenticated: isAuthenticated, login: login, logout: logout}}>
+      <AuthContext.Provider value={value}>
           {children}
       </AuthContext.Provider>
   )
