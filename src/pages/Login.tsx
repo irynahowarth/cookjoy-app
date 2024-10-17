@@ -40,7 +40,7 @@ export default function Login({}: Props) {
   const inputStyles = 'block w-full rounded-lg border border-transparent shadow ring-1 ring-black/10 px-2 py-1 text-base/6 sm:text-sm/6 focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-black'
   const labelStyles ='text-sm/5 font-medium'
   return (
-    <div className='isolate flex min-h-dvh items-center justify-center'>
+    <div className='isolate flex h-dvh items-center justify-center mb-10'>
       <div className="w-full max-w-md rounded-xl bg-white shadow-md ring-1 ring-black/5">
         <Form method="post" replace className='p-7 sm:p-11'>
             <h2 className='mt-8 text-base/6 font-medium'>Welcome back!</h2>
