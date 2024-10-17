@@ -19,7 +19,7 @@ export default function Recipes({}: Props) {
 
   const typeFilter = searchParams.get("type")
 
-  
+  const btnStyle = ' px-4 py-1 rounded-lg border border-transparent shadow ring-1 ring-black/10 whitespace-nowrap text-sm font-medium text-gray-950 disabled:bg-transparent hover:bg-gray-50 disabled:opacity-40'
   
   function renderRecipes(recipes){
     const displayRecipes = typeFilter 
@@ -27,30 +27,37 @@ export default function Recipes({}: Props) {
       : recipes
   
     const recipeElements = displayRecipes?.map((rec:RecipeProps) => (
+      <div key={rec.id} className="grid grid-cols-1 py-4 gap-8">
       <Link 
         to={rec.id} 
-        key={rec.id}
+        
         aria-label={`View details for ${rec.title}`}
       >
         <div><p>{rec.title}</p></div>
       </Link>
+      </div>
     ))
 
     return (
       <>
-        <div>
+        <hr className="mt-6 border-t border-gray-200"></hr>
+        <div className='flex flex-wrap gap-3 mt-6'>
             {allDishTypes.map((el,index) =>
-            <button 
+            <button
+                className={btnStyle}
                 key={el+index}
                 onClick={()=>setSearchParams({type:el})}  
               >
-                  {el}
+                  {el[0].toUpperCase()+el.slice(1)}
               </button>
               )}
-            <button key="clear" onClick={()=>setSearchParams({})}>clear</button>
+            <button 
+            className={btnStyle}
+            key="clear" onClick={()=>setSearchParams({})}>Clear All</button>
 
         </div>
-        <div>
+        <hr className="mt-6 border-t border-gray-200"></hr>
+        <div className='mt-6'>
           {recipeElements}
         </div>
       </>
@@ -59,13 +66,15 @@ export default function Recipes({}: Props) {
   }
 
   return (
-    <div>
-      <h2>All our Recipes</h2>
-      <React.Suspense fallback={<h2>Loading all recipes</h2>}>
-        <Await resolve={dataPromise.recipes}>
-          {renderRecipes}
-        </Await>
-      </React.Suspense>
-    </div>
+    <main className='mt-16 px-6 lg:px-8'>
+      <div className="mx-auto max-w-2xl lg:max-w-7xl px-4 sm:px-6">
+        <h2 className='mt-2 text-pretty text-4xl font-medium tracking-tighter text-gray-950 sm:text-6xl'>All our Recipes</h2>
+        <React.Suspense fallback={<h2>Loading all recipes</h2>}>
+          <Await resolve={dataPromise.recipes}>
+            {renderRecipes}
+          </Await>
+        </React.Suspense>
+      </div>
+    </main>
   )
 }
