@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs,getDoc,  collection, doc } from "firebase/firestore/lite";
+import { 
+    getFirestore, 
+    getDocs,
+    getDoc,
+    collection, 
+    doc, 
+    query, 
+    where} from "firebase/firestore/lite";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDHBRY9HLDvltPTQyAXfEhEGQbbgACRgXU",
@@ -19,7 +26,6 @@ export async function getRecipes(){
         ...doc.data(),
         id:doc.id
     }))
-    console.log(dataArr)
     return dataArr
 }
 // get single document by id from recipes collection 
@@ -37,18 +43,14 @@ export async function getRecipe(id) {
     }
 }
 
-export async function getCreateRecipes(id){
-    const url = id ? `/api/v1/create/recipes/${id}` : "/api/v1/create/recipes"
-    const res  = await fetch(url);
-    if(!res.ok){
-        throw{
-            message: "Failed to fetch recipes",
-            statusText: res.statusText,
-            status: res.status
-        }
-    }
-    const data = await res.json();
-    return data.recipes;
+export async function getCreateRecipes(){
+    const q = query(collection(db, "recipes"), where('createId','==','111'));
+    const  querySnapshot = await getDocs(q);
+    const dataArr = querySnapshot.docs.map(doc=>({
+        ...doc.data(),
+        id:doc.id
+    }))
+    return dataArr
 }
 
 export async function loginUser(cred){
