@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs, collection } from "firebase/firestore/lite";
+import { getFirestore, getDocs,getDoc,  collection, doc } from "firebase/firestore/lite";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDHBRY9HLDvltPTQyAXfEhEGQbbgACRgXU",
@@ -22,20 +22,20 @@ export async function getRecipes(){
     console.log(dataArr)
     return dataArr
 }
-// export async function getRecipes(id){
-//     const url = id ? `/api/v1/recipes/${id}` : "/api/v1/recipes"
-//     const res  = await fetch(url);
-//     if(!res.ok){
-//         throw{
-//             message: "Failed to fetch recipes",
-//             statusText: res.statusText,
-//             status: res.status
-//         }
-//     }
-//     const data = await res.json();
-//     return data.recipes;
-// }
-
+// get single document by id from recipes collection 
+export async function getRecipe(id) {
+    const docRef = doc(db, 'recipes', id)
+    const recipeSnap = await getDoc(docRef)
+    if(!recipeSnap.exists()) {
+       throw {
+            message: 'No such recipe exist'
+        }
+    }
+    return {
+        ...recipeSnap.data(), 
+        id: recipeSnap.id
+    }
+}
 
 export async function getCreateRecipes(id){
     const url = id ? `/api/v1/create/recipes/${id}` : "/api/v1/create/recipes"

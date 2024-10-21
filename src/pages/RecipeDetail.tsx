@@ -1,11 +1,11 @@
 import React from 'react'
 import { useLoaderData, useParams } from 'react-router-dom'
-import {getRecipes} from '../api'
+import {getRecipe} from '../api'
 
 type Props = {}
 
 export function loader({params}){
-  return getRecipes(params.id)
+  return getRecipe(params.id)
 }
 
 export default function RecipeDetail({}: Props) {
