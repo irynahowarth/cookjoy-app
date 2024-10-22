@@ -23,6 +23,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Login, {loader as loginLoader, action as loginAction} from "./pages/Login";
 import {AuthProvider } from './context/auth'
 import RequireAuth from "./RequireAuth";
+import Signup from "./pages/Signup";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -45,6 +46,11 @@ const router = createBrowserRouter(createRoutesFromElements(
           loader={loginLoader}
           action={loginAction}
       />
+      <Route 
+        path="signup" 
+        element={<Signup/>}
+      />
+      
   
       <Route path="create" element={
         <RequireAuth redirectTo="/login">
