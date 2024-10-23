@@ -7,7 +7,7 @@ import {  RouterProvider,
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Recipes, {loader as recipesLoader} from "./pages/Recipes";
-import "./server"
+// import "./server"
 import RecipeDetail, {loader as recipeDetailsLoader} from "./pages/RecipeDetail";
 import Layout from "./components/Layout";
 import Error from "./components/Error";
@@ -23,7 +23,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Login, {loader as loginLoader, action as loginAction} from "./pages/Login";
 import {AuthProvider } from './context/auth'
 import RequireAuth from "./RequireAuth";
-import Signup from "./pages/Signup";
+import Signup, {action as signupAction} from "./pages/Signup";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -49,6 +49,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route 
         path="signup" 
         element={<Signup/>}
+        action={signupAction}  
       />
       
   

@@ -75,6 +75,7 @@ createServer({
         this.namespace = "/api/v1/"
         this.logging = false
         this.passthrough("https://firestore.googleapis.com/**")
+        this.passthrough()
 
         this.get("/recipes",(schema, request)=>{
             return schema.recipes.all()

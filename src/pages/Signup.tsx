@@ -1,8 +1,40 @@
 import React from 'react'
-import { Form, useNavigation, Link } from 'react-router-dom'
+import { Form, useNavigation, Link, useActionData, useNavigate } from 'react-router-dom'
+import {signupUser, loginUser} from '../api'
+import useAuth from '../context/auth';
+
+
+export async function action({request}){
+  const formData =  await request.formData();
+  const firstName = formData.get("firstName")
+  const lastName = formData.get("lastName")
+  const email = formData.get("email")
+  const password = formData.get("password")
+   try{
+    const data = await signupUser({email,password})
+    return data
+  } catch(err){
+    return err
+  }
+}
+
 
 export default function Signup() {
     const navigate = useNavigation()
+    const actionData = useActionData()
+    const nav = useNavigate()
+    
+
+    const {login} = useAuth()
+
+  React.useEffect(()=>{
+      if(actionData && actionData.email){
+        const {displayName, email} = actionData
+        login({displayName, email})
+        nav('/create')
+      }
+  },[actionData])
+
     const inputStyles = 'block w-full rounded-lg border border-transparent shadow ring-1 ring-black/10 px-2 py-1 text-base/6 sm:text-sm/6 focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-black'
     const labelStyles ='text-sm/5 font-medium'
     return (
@@ -14,10 +46,9 @@ export default function Signup() {
               Already registered?{" "} 
               <Link aria-label="Login" to="/login" className="font-medium text-pink-600 hover:underline">Login</Link>{" "}
               to your account.</p>
-            
             {/* {message && <p className="mt-3 text-sm/5 text-red-600">{message}</p>} */}
-            {/* {actionData && <p className="mt-3 text-sm/5 text-red-600">{actionData.message}</p>} */}
-            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2">
+            {actionData && <p className="mt-3 text-sm/5 text-red-600">{actionData.message}</p>}
+            {/* <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2">
               <div className="space-y-3">
                 <label htmlFor="firstName" className={labelStyles}>First Name</label>
                 <input 
@@ -42,7 +73,7 @@ export default function Signup() {
                     className={inputStyles}
                   />
               </div>
-            </div>
+            </div> */}
             <div className="mt-6 space-y-3">
               <label 
                 htmlFor="email"

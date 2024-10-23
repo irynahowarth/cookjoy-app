@@ -7,6 +7,10 @@ import {
     doc, 
     query, 
     where} from "firebase/firestore/lite";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword } from "firebase/auth"
 
 const firebaseConfig = {
     apiKey: "AIzaSyDHBRY9HLDvltPTQyAXfEhEGQbbgACRgXU",
@@ -16,7 +20,8 @@ const firebaseConfig = {
     messagingSenderId: "426667455012",
     appId: "1:426667455012:web:4b4c9cc8584228ee8f9eb1"
   };
-const app = initializeApp(firebaseConfig);
+const  app = initializeApp(firebaseConfig);
+const auth = getAuth(app)
 const db = getFirestore(app)
 
 
@@ -53,18 +58,23 @@ export async function getCreateRecipes(){
     return dataArr
 }
 
-export async function loginUser(cred){
-    const res = await fetch("/api/v1/login",
-        {method: "post", body: JSON.stringify(cred)}
-    )
-    const data = await res.json()
-
-    if(!res.ok){
-        throw {
-            message: data.message,
-            statusText: res.statusText,
-            status: res.status
-        }
+export async function loginUser({email, password}){
+    try{
+        const res =  await signInWithEmailAndPassword(auth, email, password)
+        const data =  res.user
+        return  data
+    } catch(error){
+        return error
     }
-    return data
+
+}
+
+export async function signupUser({email, password}) {
+    try{
+        const res =  await createUserWithEmailAndPassword(auth, email, password)
+        const data =  res.user
+        return  data
+    }catch(error){
+        return error
+    }
 }

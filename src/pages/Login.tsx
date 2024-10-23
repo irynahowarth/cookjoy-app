@@ -30,9 +30,11 @@ export default function Login({}: Props) {
 
   const {login} = useAuth()
 
+
   React.useEffect(()=>{
-    if(actionData && !actionData.status){
-      login(actionData.user)
+    if(actionData && actionData.email){
+      const {displayName, email} = actionData
+      login({displayName, email})
       nav('/create')
     }
   },[actionData])
