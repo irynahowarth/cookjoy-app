@@ -1,5 +1,7 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage';
+import {auth} from '../api'
+import { signOut } from 'firebase/auth';
 
 export const AuthContext = React.createContext(
   {
@@ -22,8 +24,13 @@ export function AuthProvider({ children }){
     setUser(data)
   }
 
-  const logout = () => {
+  const logout = async() => {
+    try{
+      await signOut(auth)
       setUser(null);
+    } catch(error) {
+      console.error(error)
+    };
   }
 
   const value = React.useMemo(
