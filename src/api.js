@@ -9,6 +9,7 @@ import {
     where} from "firebase/firestore/lite";
 import { 
     getAuth, 
+    onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword } from "firebase/auth"
 
@@ -23,6 +24,8 @@ const firebaseConfig = {
 const  app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
 const db = getFirestore(app)
+
+
 
 
 export async function getRecipes(){
@@ -76,5 +79,41 @@ export async function signupUser({email, password}) {
         return  data
     }catch(error){
         return error
+    }
+}
+
+export async function getUserProfile() {
+    
+    const user = auth.currentUser;
+    console.log('User:'+{user})
+    if (user !== null) {
+        return {
+            displayName:user.displayName,
+            email: user.email,
+            photoURL: user.photoURL
+            }
+    } else {
+        throw {
+        message: 'No such user exist'
+        }
+    }
+    
+}
+
+
+
+export async function updateUserProfile() {
+    const user = auth.currentUser;
+    if (user !== null) {
+    
+    const displayName = user.displayName;
+    const email = user.email;
+    const photoURL = user.photoURL;
+    const emailVerified = user.emailVerified;
+    const uid = user.uid;
+
+    console.log('Name:'+email)
+    return displayName
+
     }
 }
