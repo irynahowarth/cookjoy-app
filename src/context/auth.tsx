@@ -20,6 +20,7 @@ export default function useAuth() {
 
 export function AuthProvider({ children }){
   const [user, setUser] = useLocalStorage('user', null)
+  const [loading, setLoading] = React.useState(true)
 
   React.useEffect(()=>{
     const listener = onAuthStateChanged(auth, (data)=>{
@@ -28,7 +29,7 @@ export function AuthProvider({ children }){
       } else {
         setUser(null)
       }
-      
+      setLoading(false)
     })
     return ()=>listener();
   },[auth])
@@ -49,6 +50,7 @@ export function AuthProvider({ children }){
   const value = React.useMemo(
     ()=>({
       user,
+      loading,
       login,
       logout
     }),[user]
@@ -56,7 +58,7 @@ export function AuthProvider({ children }){
 
   return (
       <AuthContext.Provider value={value}>
-          {children}
+          {!loading && children}
       </AuthContext.Provider>
   )
 }
