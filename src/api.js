@@ -96,17 +96,16 @@ export async function updateUserProfile(data) {
     
     const newDisplayName = data.get('displayName')
     const newPhotoURL = data.get('photoURL');
-
+  
     try{
         if(newDisplayName!==user.displayName || newPhotoURL!== user.photoURL){
-            console.log('not mail')
             const resData = await updateProfile(user,{
                 displayName: newDisplayName,
                 photoURL: newPhotoURL}
             )
+            return {message:'Profile was successfully updated'}
         }
-        return {message:'Profile was successfully updated'}
-
+         return {message:'Profile is already up to date'}
     }catch(error){
         return error
     }

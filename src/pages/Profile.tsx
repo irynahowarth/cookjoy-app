@@ -3,6 +3,7 @@ import { Form, useActionData, useLoaderData } from 'react-router-dom'
 import {
     updateUserProfile} from '../api'
 import useAuth from '../context/auth'
+import icon from '../assets/icons/icon-user-default.svg'
 
 export async function action({request}){
     const formData =  await request.formData();
@@ -36,10 +37,17 @@ export default function Profile() {
         <h2 className="inline-flex items-center rounded-full mb-8 px-4 py-1 text-pink-600 ring-1 ring-inset ring-pink-600"><span className=" text-base font-base tracking-tight">{editing? 'Editing':'User'} Profile</span></h2>
         {!editing &&
         <>
-        {actionData && <p className="mt-3 ml-7 text-sm/5 text-red-600">{actionData.message}</p>}
+        {actionData && <p className="mt-3 ml-7 sm:ml-11 text-sm/5 text-red-600">{actionData.message}</p>}
             <div className='p-7 sm:p-11 '>
-                <div className='relative mx-auto h-33 w-33 overflow-hidden rounded-full bg-slate-200 md:h-56 md:w-56 md:[shape-outside:circle(40%)] lg:mr-20 lg:h-64 lg:w-64'>
-                    <img src="https://avatars.githubusercontent.com/u/15159483?v=4" alt={`${user.displayName? user.displayName: "User"}`+"'s profile image"}/></div>
+                <div className='aspect-square overflow-hidden rounded-xl shadow-xl outline-1 -outline-offset-1 outline-black/10'>
+                    
+                    <img 
+                        src = {user.photoURL? user.photoURL:icon}
+                        alt={`${user.displayName? user.displayName: "User"}`+"'s profile image"}
+                        className='block size-full object-cover'
+                    />
+                    
+                </div>
                 <h4 className='mt-6 font-semibold'>Name: <span  className='font-normal text-sm/5 text-gray-700'>{user.displayName}</span></h4>
                 <h4 className='mt-6 font-semibold'>Email: <span className='font-normal text-sm/5 text-gray-700'>{user.email}</span></h4>
                 <button 
