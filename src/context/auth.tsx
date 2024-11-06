@@ -1,6 +1,7 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage';
 import {auth} from '../api'
+import {onAuthStateChanged } from "firebase/auth";
 import { signOut } from 'firebase/auth';
 
 export const AuthContext = React.createContext(
@@ -19,6 +20,18 @@ export default function useAuth() {
 
 export function AuthProvider({ children }){
   const [user, setUser] = useLocalStorage('user', null)
+
+  React.useEffect(()=>{
+    const listener = onAuthStateChanged(auth, (data)=>{
+      if(data){
+        setUser(data)
+      } else {
+        setUser(null)
+      }
+      
+    })
+    return ()=>listener();
+  },[auth])
 
   const login = async (data) => {
     setUser(data)

@@ -24,7 +24,7 @@ import Login, {loader as loginLoader, action as loginAction} from "./pages/Login
 import {AuthProvider } from './context/auth'
 import RequireAuth from "./RequireAuth";
 import Signup, {action as signupAction} from "./pages/Signup";
-import Profile, {loader as profileLoader, action as profileUpdateAction} from "./pages/Profile";
+import Profile, {action as profileUpdateAction} from "./pages/Profile";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -55,7 +55,6 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route 
         path="profile"
         element={<Profile/>}
-        loader={profileLoader}
         action={profileUpdateAction}
       />
       

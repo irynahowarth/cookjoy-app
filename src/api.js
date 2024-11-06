@@ -21,9 +21,12 @@ const firebaseConfig = {
     messagingSenderId: "426667455012",
     appId: "1:426667455012:web:4b4c9cc8584228ee8f9eb1"
   };
+
+
 const  app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
 const db = getFirestore(app)
+
 
 
 
@@ -82,23 +85,6 @@ export async function signupUser({email, password}) {
     }
 }
 
-export async function getUserProfile() {
-    
-    const user = auth.currentUser;
-    console.log('User:'+{user})
-    if (user !== null) {
-        return {
-            displayName:user.displayName,
-            email: user.email,
-            photoURL: user.photoURL
-            }
-    } else {
-        throw {
-        message: 'No such user exist'
-        }
-    }
-    
-}
 
 
 
@@ -112,8 +98,7 @@ export async function updateUserProfile() {
     const emailVerified = user.emailVerified;
     const uid = user.uid;
 
-    console.log('Name:'+email)
-    return displayName
+    return email
 
     }
 }
