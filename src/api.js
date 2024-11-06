@@ -57,7 +57,7 @@ export async function getRecipe(id) {
 }
 
 export async function getCreateRecipes(){
-    const q = query(collection(db, "recipes"), where('createId','==','111'));
+    const q = query(collection(db, "recipes"), where('createId','==',auth.currentUser.uid));
     const  querySnapshot = await getDocs(q);
     const dataArr = querySnapshot.docs.map(doc=>({
         ...doc.data(),
