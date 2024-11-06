@@ -10,8 +10,10 @@ import {
 import { 
     getAuth, 
     onAuthStateChanged,
+    updateProfile,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword } from "firebase/auth"
+    signInWithEmailAndPassword, 
+    } from "firebase/auth"
 
 const firebaseConfig = {
     apiKey: "AIzaSyDHBRY9HLDvltPTQyAXfEhEGQbbgACRgXU",
@@ -88,17 +90,30 @@ export async function signupUser({email, password}) {
 
 
 
-export async function updateUserProfile() {
+export async function updateUserProfile(data) {
     const user = auth.currentUser;
     if (user !== null) {
     
-    const displayName = user.displayName;
-    const email = user.email;
-    const photoURL = user.photoURL;
-    const emailVerified = user.emailVerified;
-    const uid = user.uid;
+    const newDisplayName = data.get('displayName')
+    const newPhotoURL = data.get('photoURL');
 
-    return email
+    try{
+        if(newDisplayName!==user.displayName || newPhotoURL!== user.photoURL){
+            console.log('not mail')
+            const resData = await updateProfile(user,{
+                displayName: newDisplayName,
+                photoURL: newPhotoURL}
+            )
+        }
+        return {message:'Profile was successfully updated'}
+
+    }catch(error){
+        return error
+    }
+    updateProfile(auth.currentUser, {
+        displayName: "Jane Q. User", 
+        photoURL: "https://example.com/jane-q-user/profile.jpg"
+      })
 
     }
 }

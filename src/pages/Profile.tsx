@@ -1,17 +1,13 @@
 import React from 'react'
-import { Form, useLoaderData } from 'react-router-dom'
+import { Form, useActionData, useLoaderData } from 'react-router-dom'
 import {
     updateUserProfile} from '../api'
 import useAuth from '../context/auth'
 
 export async function action({request}){
     const formData =  await request.formData();
-    const displayName = formData.get("displayName")
-    const email = formData.get("email")
-    const photoURL = formData.get("photoURL")
     try{
-        const data = await updateUserProfile()
-        console.log(data)
+        const data = await updateUserProfile(formData)
       return data
     } catch(err){
       return err
@@ -22,6 +18,13 @@ export async function action({request}){
 export default function Profile() {
     const {user} = useAuth()
     const [editing, setEditing] = React.useState(false)
+    const actionData = useActionData()
+
+    React.useEffect(()=>{
+        if(actionData && actionData.message){
+          setEditing(false)
+        }
+    },[actionData])
 
     const inputStyles = 'block w-full rounded-lg border border-transparent shadow ring-1 ring-black/10 px-2 py-1 text-base/6 sm:text-sm/6 focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-black'
     const labelStyles ='text-sm/5 font-medium'
@@ -32,6 +35,8 @@ export default function Profile() {
       <div className="w-full max-w-md rounded-xl bg-white shadow-md ring-1 ring-black/5 p-7 sm:p-11 ">
         <h2 className="inline-flex items-center rounded-full mb-8 px-4 py-1 text-pink-600 ring-1 ring-inset ring-pink-600"><span className=" text-base font-base tracking-tight">{editing? 'Editing':'User'} Profile</span></h2>
         {!editing &&
+        <>
+        {actionData && <p className="mt-3 ml-7 text-sm/5 text-red-600">{actionData.message}</p>}
             <div className='p-7 sm:p-11 '>
                 <div className='relative mx-auto h-33 w-33 overflow-hidden rounded-full bg-slate-200 md:h-56 md:w-56 md:[shape-outside:circle(40%)] lg:mr-20 lg:h-64 lg:w-64'>
                     <img src="https://avatars.githubusercontent.com/u/15159483?v=4" alt={`${user.displayName? user.displayName: "User"}`+"'s profile image"}/></div>
@@ -42,6 +47,7 @@ export default function Profile() {
                     className={btnStyles}
                 >Edit Profile</button>
             </div>
+        </>
         }
         {editing &&
             <Form method="post" replace >
@@ -59,7 +65,7 @@ export default function Profile() {
                     defaultValue={user.displayName || null}
                     />
                 </div>
-                <div className="mt-6 space-y-3">
+                {/* <div className="mt-6 space-y-3">
                     <label 
                     htmlFor="email"
                     className={labelStyles}
@@ -72,7 +78,7 @@ export default function Profile() {
                     type="email" 
                     defaultValue={user.email || null}
                     />
-                </div>
+                </div> */}
                 <div className="mt-6 space-y-3">
                     <label 
                     htmlFor="photoURL"
