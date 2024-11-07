@@ -3,6 +3,7 @@ import {
     getFirestore, 
     getDocs,
     getDoc,
+    addDoc,
     collection, 
     doc, 
     query, 
@@ -117,10 +118,30 @@ export async function updateUserProfile(data) {
     }catch(error){
         return error
     }
-    updateProfile(auth.currentUser, {
-        displayName: "Jane Q. User", 
-        photoURL: "https://example.com/jane-q-user/profile.jpg"
-      })
 
     }
+}
+
+
+export async function addNewRecipe(data) {
+    const newTitle = data.get('title');
+    const newServings = parseInt(data.get('servings'), 10);
+    
+    if (!newTitle || !newServings) {
+        throw new Error("Title and servings are required.");
+    }
+
+    try {
+        const docRef = await addDoc(collection(db, "recipes"), {
+        title: newTitle,
+        servings: newServings,
+        createId: auth.currentUser.uid, 
+        dishTypes: ['snack'],
+        });
+
+        return { success: true, id: docRef.id };
+    } catch (e) {
+        throw new Error(`Error adding document: ${e.message}`);
+    }
+      
 }
