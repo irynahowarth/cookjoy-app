@@ -10,8 +10,9 @@ export default function CreateLayout({}: Props) {
       <div className="mx-auto max-w-2xl lg:max-w-7xl px-4 sm:px-6">
       <nav className='flex items-center sm:border-b sm:border-gray-200'>
         <Link to="." className={linkStyles}>Dashboard</Link>
-        <Link to="./recipes" className={linkStyles}>Recipes</Link>
+        <Link to="./recipes" className={linkStyles}>My Recipes</Link>
         <Link to="./reviews" className={linkStyles}>Reviews</Link>
+        <Link to="./newrecipe" className={linkStyles}>Add Recipe</Link>
         </nav>
       <Outlet/>
     </div>

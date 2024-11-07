@@ -25,6 +25,7 @@ import {AuthProvider } from './context/auth'
 import RequireAuth from "./RequireAuth";
 import Signup, {action as signupAction} from "./pages/Signup";
 import Profile, {action as profileUpdateAction} from "./pages/Profile";
+import AddNewRecipe, {action as addRecipeAction} from "./pages/Create/AddNewRecipe";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -70,6 +71,11 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route 
           path="reviews" 
           element={<Reviews />} 
+        />
+         <Route 
+          path="newrecipe" 
+          element={<AddNewRecipe />} 
+          action={addRecipeAction}
         />
         <Route 
             path="recipes" 
