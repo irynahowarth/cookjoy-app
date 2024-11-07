@@ -50,6 +50,8 @@ export default function AddNewRecipe({}: Props) {
 
     const inputStyles = 'block w-full rounded-lg border border-transparent shadow ring-1 ring-black/10 px-2 py-1 text-base/6 sm:text-sm/6 focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-black'
     const labelStyles ='text-sm/5 font-medium'
+    const darkBtnStyles = 'inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-transparent bg-gray-950 shadow-md whitespace-nowrap text-base font-medium text-white disabled:bg-gray-950 hover:bg-gray-800 disabled:opacity-40'
+    const lightBtnStyles = 'relative inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-transparent bg-white/15 shadow-md ring-1 ring-[#D15052]/15 after:absolute after:inset-0 after:rounded-full  whitespace-nowrap text-base font-medium text-gray-950 disabled:bg-white/15 hover:bg-white/20 disabled:opacity-40'
     
   return (
     <div className='mt-6 px-4'>
@@ -93,15 +95,22 @@ export default function AddNewRecipe({}: Props) {
                 />
             </div>
             <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
-                <button type='submit'>Save recipe</button>
-                <button type='reset'>Clear</button>
+                <button 
+                    type='submit'
+                    className={darkBtnStyles}
+                >Save recipe</button>
+                <button 
+                    type='reset'
+                    className={lightBtnStyles}
+                >Clear</button>
             </div>
         </Form>
       </div> ): (
          <div className="mt-6">
-         <p className="text-green-600">Recipe submitted successfully!</p>
+         <p className="text-green-600 mb-6">Recipe submitted successfully!</p>
          <button
            onClick={() => setSubmitted(false)}
+           className={darkBtnStyles}
          >
            Add another recipe
          </button>
