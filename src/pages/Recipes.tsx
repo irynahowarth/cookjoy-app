@@ -1,11 +1,11 @@
 
 import React from 'react'
 import { Link, useSearchParams, useLoaderData,defer, Await } from 'react-router-dom';
-import { getRecipes } from '../api';
+import { getRecipes, getDishTypes } from '../api';
+import useDishTypes from '../context/useDishTypes';
+
 
 type Props = {}
-
-const allDishTypes = ["breakfast","lunch", "dinner", "snack", "dessert"]
 
 export function loader(){
   return defer({recipes: getRecipes()});
@@ -14,9 +14,15 @@ export function loader(){
 
 export default function Recipes({}: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { dishTypes, loading } = useDishTypes();
 
   const dataPromise = useLoaderData()
 
+  if (loading) {
+    return <p>Loading dish types...</p>;
+  }
+    
+  const allDishTypes= dishTypes.map(el=>el?.name)
   const typeFilter = searchParams.get("type")
 
   const btnStyle = ' px-4 py-1 rounded-lg border border-transparent shadow ring-1 ring-black/10 whitespace-nowrap text-sm font-medium text-gray-950 disabled:bg-transparent hover:bg-gray-50 disabled:opacity-40'

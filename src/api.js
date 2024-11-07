@@ -30,6 +30,14 @@ export const auth = getAuth(app)
 const db = getFirestore(app)
 
 
+export async function getDishTypes(){
+    const  querySnapshot = await getDocs(collection(db, "dishTypes"));
+    const dataArr = querySnapshot.docs.map(doc=>({
+        ...doc.data(),
+        id:doc.id
+    }))
+    return dataArr
+}
 
 
 
