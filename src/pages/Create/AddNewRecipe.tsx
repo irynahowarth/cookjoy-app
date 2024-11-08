@@ -94,6 +94,25 @@ export default function AddNewRecipe({}: Props) {
                 placeholder="Number of servings"
                 />
             </div>
+            <div className="mt-6 space-y-3">
+                <label className={labelStyles}>Dish Type</label>
+                <div className=" flex items-center align-middle gap-x-8 gap-y-4 flex-wrap">
+                    {allDishTypes.map((type) => (
+                    <div key={type} className="flex items-center">
+                        <input
+                        type="checkbox"
+                        id={`dishType-${type}`}
+                        name="dishTypes"
+                        value={type}
+                        className="mr-2"
+                        />
+                        <label htmlFor={`dishType-${type}`} className="text-sm">
+                        {type}
+                        </label>
+                    </div>
+                    ))}
+                </div>
+            </div>
             <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
                 <button 
                     type='submit'

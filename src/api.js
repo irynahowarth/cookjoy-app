@@ -126,9 +126,14 @@ export async function updateUserProfile(data) {
 export async function addNewRecipe(data) {
     const newTitle = data.get('title');
     const newServings = parseInt(data.get('servings'), 10);
+    const newDishTypes  = data.getAll('dishTypes');
+   
     
     if (!newTitle || !newServings) {
         throw new Error("Title and servings are required.");
+    }
+    if(!newDishTypes){
+        throw new Error("Choose at least one dish type.")
     }
 
     try {
@@ -136,7 +141,7 @@ export async function addNewRecipe(data) {
         title: newTitle,
         servings: newServings,
         createId: auth.currentUser.uid, 
-        dishTypes: ['snack'],
+        dishTypes: newDishTypes,
         });
 
         return { success: true, id: docRef.id };
