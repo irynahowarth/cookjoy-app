@@ -4,6 +4,7 @@ import {
     getDocs,
     getDoc,
     addDoc,
+    Timestamp,
     collection, 
     doc, 
     query, 
@@ -127,7 +128,10 @@ export async function addNewRecipe(data) {
     const newTitle = data.get('title');
     const newServings = parseInt(data.get('servings'), 10);
     const newDishTypes  = data.getAll('dishTypes');
-   
+    const newDesc = data.get('description');
+    // Get instructions, split by line breaks to create an array of steps
+    const newInstructions = data.get('instructions').split('\n').map(step => step.trim()).filter(step => step);
+  
     
     if (!newTitle || !newServings) {
         throw new Error("Title and servings are required.");
@@ -135,13 +139,19 @@ export async function addNewRecipe(data) {
     if(!newDishTypes){
         throw new Error("Choose at least one dish type.")
     }
+    if(!newInstructions){
+        throw new Error("Provide some steps to make this recipe.")
+    }
 
     try {
         const docRef = await addDoc(collection(db, "recipes"), {
         title: newTitle,
         servings: newServings,
         createId: auth.currentUser.uid, 
+        createdAt: Timestamp.now(),
         dishTypes: newDishTypes,
+        description: newDesc,
+        instructions: newInstructions
         });
 
         return { success: true, id: docRef.id };

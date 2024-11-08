@@ -113,6 +113,32 @@ export default function AddNewRecipe({}: Props) {
                     ))}
                 </div>
             </div>
+            <div className="mt-6 space-y-3">
+                <label 
+                htmlFor="description"
+                className={labelStyles}
+                >Description</label>
+                <textarea 
+                name="description" 
+                id="description"
+                rows="3"
+                className={inputStyles}
+                ></textarea>
+            </div>
+            <div className="mt-6 space-y-3">
+                <label 
+                htmlFor="instructions"
+                className={labelStyles}
+                >Instructions</label>
+                <textarea 
+                name="instructions" 
+                id="instructions"
+                rows="6"
+                placeholder="Enter step-by-step instructions"
+                required
+                className={inputStyles}
+                ></textarea>
+            </div>
             <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
                 <button 
                     type='submit'
