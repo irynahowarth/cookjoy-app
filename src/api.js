@@ -129,10 +129,11 @@ export async function addNewRecipe(data) {
     const newServings = parseInt(data.get('servings'), 10);
     const newDishTypes  = data.getAll('dishTypes');
     const newDesc = data.get('description');
+    const newIngredients = JSON.parse(data.get('ingredients'));
     // Get instructions, split by line breaks to create an array of steps
     const newInstructions = data.get('instructions').split('\n').map(step => step.trim()).filter(step => step);
   
-    
+
     if (!newTitle || !newServings) {
         throw new Error("Title and servings are required.");
     }
@@ -141,6 +142,9 @@ export async function addNewRecipe(data) {
     }
     if(!newInstructions){
         throw new Error("Provide some steps to make this recipe.")
+    }
+    if(!newIngredients){
+        throw new Error("Provide some ingredients to make this recipe.")
     }
 
     try {
@@ -151,6 +155,7 @@ export async function addNewRecipe(data) {
         createdAt: Timestamp.now(),
         dishTypes: newDishTypes,
         description: newDesc,
+        ingredients: newIngredients,
         instructions: newInstructions
         });
 

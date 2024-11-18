@@ -31,11 +31,17 @@ export async function action({request}){
 export default function AddNewRecipe({}: Props) {
     const { dishTypes, loading } = useDishTypes();
     const [submitted, setSubmitted] = React.useState(false)
+    const [ingredients, setIngredients] = React.useState([{ name: '', amount: '', unit: '' }]);
     const actionData = useActionData()
 
+    // Reset form fields
+    const resetForm = () => {
+        setIngredients([{ name: '', amount: '', unit: '' }]);
+    };
     // Set submitted state when actionData is available 
    React.useEffect(() => {
        if (actionData) {
+           resetForm();
            setSubmitted(true);
        }
    }, [actionData])
@@ -46,7 +52,25 @@ export default function AddNewRecipe({}: Props) {
       }
         
     
-      const allDishTypes= dishTypes.map(el=>el?.name)
+    const allDishTypes= dishTypes.map(el=>el?.name)
+
+    // Handle ingredient field change
+    const handleIngredientChange = (index, field, value) => {
+        const newIngredients = [...ingredients];
+        newIngredients[index][field] = value;
+        setIngredients(newIngredients);
+    };
+     // Serialize ingredients to a JSON string
+    const serializeIngredients = () => JSON.stringify(ingredients);
+    // Add new ingredient field
+    const addIngredient = () => {
+        setIngredients([...ingredients, { name: '', amount: '', unit: '' }]);
+    };
+
+    // Remove ingredient field
+    const removeIngredient = (index) => {
+        setIngredients(ingredients.filter((_, i) => i !== index));
+    };
 
     const inputStyles = 'block w-full rounded-lg border border-transparent shadow ring-1 ring-black/10 px-2 py-1 text-base/6 sm:text-sm/6 focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-black'
     const labelStyles ='text-sm/5 font-medium'
@@ -124,6 +148,49 @@ export default function AddNewRecipe({}: Props) {
                 rows="3"
                 className={inputStyles}
                 ></textarea>
+            </div>
+
+            {/* Ingredients List */}
+            <div className="mt-6 space-y-3">
+            <label className={labelStyles}>Ingredients</label>
+            {ingredients.map((ingredient, index) => (
+                <div key={index} className="flex gap-2 items-center">
+                <input
+                    type="text"
+                    className={inputStyles}
+                    placeholder="Ingredient Name"
+                    value={ingredient.name}
+                    onChange={(e) => handleIngredientChange(index, 'name', e.target.value)}
+                    required
+                />
+                <input
+                    type="number"
+                    className={`${inputStyles} max-w-28 text-right`}
+                    placeholder="Amount"
+                    value={ingredient.amount}
+                    onChange={(e) => handleIngredientChange(index, 'amount', e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="Unit"
+                    className={`${inputStyles} max-w-20`}
+                    value={ingredient.unit}
+                    required
+                    onChange={(e) => handleIngredientChange(index, 'unit', e.target.value)}
+                />
+                <button type="button" className={lightBtnStyles} onClick={() => removeIngredient(index)}>
+                    X
+                </button>
+                </div>
+            ))}
+            <button type="button" className={darkBtnStyles} onClick={addIngredient}>+ Ingredient</button>
+            {/* Hidden input field for serialized ingredients */}
+            <input
+                type="hidden"
+                name="ingredients"
+                value={serializeIngredients()}
+            />
             </div>
             <div className="mt-6 space-y-3">
                 <label 
