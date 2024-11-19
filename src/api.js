@@ -3,7 +3,9 @@ import {
     getFirestore, 
     getDocs,
     getDoc,
+    updateDoc,
     addDoc,
+    setDoc,
     Timestamp,
     collection, 
     doc, 
@@ -88,9 +90,16 @@ export async function loginUser({email, password}){
 }
 
 export async function signupUser({email, password}) {
+
     try{
         const res =  await createUserWithEmailAndPassword(auth, email, password)
         const data =  res.user
+        const userData =  await setDoc(doc(db, "users", data.uid), {
+            name: "",
+            photoURL: ""
+          });
+                    
+
         return  data
     }catch(error){
         return error
@@ -106,6 +115,9 @@ export async function updateUserProfile(data) {
     
     const newDisplayName = data.get('displayName')
     const newPhotoURL = data.get('photoURL');
+    const userRef = doc(db, "users", user.uid);
+   
+
   
     try{
         if(newDisplayName!==user.displayName || newPhotoURL!== user.photoURL){
@@ -113,6 +125,10 @@ export async function updateUserProfile(data) {
                 displayName: newDisplayName,
                 photoURL: newPhotoURL}
             )
+            const userData =  await updateDoc(userRef, {
+                name: newDisplayName,
+                photoURL: newPhotoURL
+              });
             return {message:'Profile was successfully updated'}
         }
          return {message:'Profile is already up to date'}
