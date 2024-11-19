@@ -89,13 +89,15 @@ export async function loginUser({email, password}){
 
 }
 
-export async function signupUser({email, password}) {
+export async function signupUser({email, password, userName}) {
 
     try{
         const res =  await createUserWithEmailAndPassword(auth, email, password)
         const data =  res.user
+        const resData = await updateProfile(data,{
+            displayName: userName})
         const userData =  await setDoc(doc(db, "users", data.uid), {
-            name: "",
+            name: userName,
             photoURL: ""
           });
                     

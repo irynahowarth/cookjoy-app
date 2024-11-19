@@ -6,12 +6,11 @@ import useAuth from '../context/auth';
 
 export async function action({request}){
   const formData =  await request.formData();
-  const firstName = formData.get("firstName")
-  const lastName = formData.get("lastName")
+  const userName = formData.get("userName")
   const email = formData.get("email")
   const password = formData.get("password")
    try{
-    const data = await signupUser({email,password})
+    const data = await signupUser({email,password,userName})
     return data
   } catch(err){
     return err
@@ -48,32 +47,19 @@ export default function Signup() {
               to your account.</p>
             {/* {message && <p className="mt-3 text-sm/5 text-red-600">{message}</p>} */}
             {actionData && <p className="mt-3 text-sm/5 text-red-600">{actionData.message}</p>}
-            {/* <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2">
-              <div className="space-y-3">
-                <label htmlFor="firstName" className={labelStyles}>First Name</label>
+            <div className="mt-6 space-y-3">
+                <label htmlFor="userName" className={labelStyles}>Display Name</label>
                 <input 
-                    name="firstName"
-                    id="firstName"
+                    name="userName"
+                    id="userName"
                     type="text" 
                     placeholder='Enter your name'
                     required
-                    autoComplete='firstName'
+                    autoComplete='userName'
                     className={inputStyles}
                 />
-              </div>
-              <div className='space-y-3'>
-                <label htmlFor="LastName" className={labelStyles}>Last Name</label>
-                <input 
-                    name="LastName"
-                    id="LastName"
-                    type="text" 
-                    placeholder='Enter your last name'
-                    required
-                    autoComplete='LastName'
-                    className={inputStyles}
-                  />
-              </div>
-            </div> */}
+              
+            </div>
             <div className="mt-6 space-y-3">
               <label 
                 htmlFor="email"
