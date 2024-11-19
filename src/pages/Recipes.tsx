@@ -3,6 +3,7 @@ import React from 'react'
 import { Link, useSearchParams, useLoaderData,defer, Await } from 'react-router-dom';
 import { getRecipes, getDishTypes } from '../api';
 import useDishTypes from '../context/useDishTypes';
+import RecipeListCard from '../components/RecipeListCard';
 
 
 type Props = {}
@@ -33,15 +34,7 @@ export default function Recipes({}: Props) {
       : recipes
   
     const recipeElements = displayRecipes?.map((rec:RecipeProps) => (
-      <div key={rec.id} className="grid grid-cols-1 py-4 gap-8">
-      <Link 
-        to={rec.id} 
-        
-        aria-label={`View details for ${rec.title}`}
-      >
-        <div><p>{rec.title}</p></div>
-      </Link>
-      </div>
+        <RecipeListCard recipe={rec} key={rec.id}/>
     ))
 
     return (
@@ -63,7 +56,7 @@ export default function Recipes({}: Props) {
 
         </div>
         <hr className="mt-6 border-t border-gray-200"></hr>
-        <div className='mt-6'>
+        <div className='mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3'>
           {recipeElements}
         </div>
       </>
