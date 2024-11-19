@@ -1,15 +1,18 @@
 import React from 'react'
 import { useLoaderData, useParams } from 'react-router-dom'
-import {getRecipe} from '../api'
+import {getRecipe, getRecipeWithUser} from '../api'
 
 type Props = {}
 
 export function loader({params}){
-  return getRecipe(params.id)
+  return getRecipeWithUser(params.id)
+  // return getRecipe(params.id)
 }
 
 export default function RecipeDetail({}: Props) {
-  const recipe = useLoaderData();
+  const {recipe, user} = useLoaderData();
+  const userPhoto =  user.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+
   return (
     <main className='mt-16 px-6 lg:px-8'>
       <div className="mx-auto max-w-2xl lg:max-w-7xl px-4 sm:px-6">
@@ -21,8 +24,9 @@ export default function RecipeDetail({}: Props) {
             <div className="mt-16 grid grid-cols-1 gap-8 pb-24 lg:grid-cols-[15rem_1fr] xl:grid-cols-[15rem_1fr_15rem]">
               <div className="flex flex-wrap items-center gap-8 max-lg:justify-between lg:flex-col lg:items-start">
                 <div className="flex items-center gap-3">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User Profile Image" className="aspect-square size-6 rounded-full object-cover" />
-                  <div className="text-sm/5 text-gray-700">Ania Heist</div>
+                
+                  <img src={userPhoto} alt="User Profile Image" className="aspect-square size-6 rounded-full object-cover" />
+                  <div className="text-sm/5 text-gray-700">{user.name}</div>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <a href=""

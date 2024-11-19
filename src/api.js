@@ -68,6 +68,33 @@ export async function getRecipe(id) {
     }
 }
 
+export async function getRecipeWithUser(recipeId) {
+    // Fetch the recipe document
+    const docRef = doc(db, 'recipes', recipeId);
+    const recipeSnap = await getDoc(docRef);
+  
+    if (recipeSnap.exists()) {
+      const recipe = recipeSnap.data();
+      // Fetch the user profile
+      const userRef = doc(db, 'users', recipe.createId);
+      const userSnap = await getDoc(userRef);
+      
+      if (userSnap.exists()) {
+        const user = userSnap.data();
+        return { recipe, user };
+      } else {
+        throw { message: 'User not found'};
+      }
+    } else {
+        throw { message: 'No such recipe exist'};
+    }
+  
+    return null;
+  }
+
+
+
+
 export async function getCreateRecipes(){
     const q = query(collection(db, "recipes"), where('createId','==',auth.currentUser.uid));
     const  querySnapshot = await getDocs(q);
