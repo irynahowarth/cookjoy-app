@@ -1,6 +1,8 @@
 import React from 'react'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import {getRecipeWithUser} from '../api'
+import RecipeIngredients from '../components/RecipeIngredients'
+
 
 type Props = {}
 
@@ -11,7 +13,7 @@ export function loader({params}){
 export default function RecipeDetail({}: Props) {
   const {recipe, user} = useLoaderData();
   const navigate = useNavigate();
-
+  // console.log(recipe)
   const userPhoto =  user.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
   return (
@@ -30,7 +32,7 @@ export default function RecipeDetail({}: Props) {
                   <div className="text-sm/5 text-gray-700">{user.name}</div>
                 </div>
                 {recipe.dishTypes.length > 0 && 
-                  <div className="flex flex-wrap gap-2 mt-6">
+                  <div className="flex flex-wrap gap-2">
                       {recipe.dishTypes.map((dish,index)=>(
                           <button  
                           key={dish+index}
@@ -47,35 +49,10 @@ export default function RecipeDetail({}: Props) {
                     alt="Recipe photo" 
                     className='mb-10 aspect-[3/2] w-full rounded-2xl object-cover shadow-xl'
                     />
-                  <p>This delicious Peach Strudel is wrapped in puff pastry with a cream cheese and peach filling. Topped with toasted almonds and sprinkled with a little bit of icing sugar, this peach strudel is absolutely perfect for summer! </p>
-                  <h3 className='mb-6 mt-12 text-xl/8 font-medium tracking-tight text-gray-950 first:mt-0 last:mb-0'>Ingredients</h3>
-                  <ul className="list-disc pl-4 text-base/8 marker:text-gray-400">
-                    <li className='my-2 pl-2'>
-                    225 grams cream cheese
-                    </li>
-                    <li className='my-2 pl-2'>
-                    1 teaspoon vanilla extract
-                    </li>
-                    <li className='my-2 pl-2'>
-                    ¼ cup sugar
-                    </li>
-                    <li className='my-2 pl-2'>
-                      vanilla extract - 1tsp
-                    </li>
-                    <li className='my-2 pl-2'>
-                    1 egg yolk
-                    </li>
-                    <li className='my-2 pl-2'>
-                    2 sheets puff pastry
-                    </li>
-                    <li className='my-2 pl-2'>
-                    1 egg (for egg wash)
-                    </li>
-                    <li className='my-2 pl-2'>
-                    3 large peaches
-                    </li>
+                  {recipe.description && <p>{recipe.description}</p>}
+                  {recipe?.ingredients && <RecipeIngredients ingredients={recipe.ingredients}/>}
+                  
 
-                  </ul>
                   <h3 className='mb-6 mt-12 text-xl/8 font-medium tracking-tight text-gray-950 first:mt-0 last:mb-0'>How to make it</h3>
                   <ol className="list-decimal pl-4 text-base/8 marker:text-gray-400">
                     <li className="my-2 pl-2">
