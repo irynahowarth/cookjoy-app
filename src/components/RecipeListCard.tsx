@@ -1,9 +1,11 @@
 import React from 'react'
+import { Timestamp } from "firebase/firestore"
 import { Link } from 'react-router-dom'
 
 type Props = {}
 
 export default function RecipeListCard({recipe}: Props) {
+    const recipeTime = recipe.createdAt.toDate().toUTCString('en-gb', { weekday:"long", year:"numeric", month:"short", day:"numeric"}).slice(0,-12)
     const userPhoto =  recipe.user.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   return (
     <div className="relative flex flex-col rounded-3xl bg-white p-2 shadow-md shadow-black/5 ring-1 ring-black/5">
@@ -12,7 +14,7 @@ export default function RecipeListCard({recipe}: Props) {
             alt={`Recipe ${recipe.title} photo`}
             className="aspect-[3/2] w-full rounded-2xl object-cover"/>
         <div className="flex flex-1 flex-col p-8">
-            <div className="text-sm/7 text-gray-700">Thursday, August 29, 2024</div>
+            <div className="text-sm/7 text-gray-700">{recipeTime}</div>
         
         <div className="mt-2 text-base/7 font-medium">
             <Link to={recipe.id}  aria-label={`View details for ${recipe.title}`}>
