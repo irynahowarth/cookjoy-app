@@ -1,16 +1,17 @@
 import React from 'react'
-import { useLoaderData, useParams } from 'react-router-dom'
-import {getRecipe, getRecipeWithUser} from '../api'
+import { useLoaderData, useNavigate } from 'react-router-dom'
+import {getRecipeWithUser} from '../api'
 
 type Props = {}
 
 export function loader({params}){
   return getRecipeWithUser(params.id)
-  // return getRecipe(params.id)
 }
 
 export default function RecipeDetail({}: Props) {
   const {recipe, user} = useLoaderData();
+  const navigate = useNavigate();
+
   const userPhoto =  user.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
   return (
@@ -28,14 +29,16 @@ export default function RecipeDetail({}: Props) {
                   <img src={userPhoto} alt="User Profile Image" className="aspect-square size-6 rounded-full object-cover" />
                   <div className="text-sm/5 text-gray-700">{user.name}</div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  <a href=""
-                    className='rounded-full border border-dotted border-gray-300 bg-gray-50 px-2 text-sm/6 font-medium text-gray-500'
-                  >Dinner</a>
-                  <a href=""
-                    className='rounded-full border border-dotted border-gray-300 bg-gray-50 px-2 text-sm/6 font-medium text-gray-500'
-                  >Lunch</a>
-                </div>
+                {recipe.dishTypes.length > 0 && 
+                  <div className="flex flex-wrap gap-2 mt-6">
+                      {recipe.dishTypes.map((dish,index)=>(
+                          <button  
+                          key={dish+index}
+                          onClick={()=>navigate(`/recipes?type=${dish}`)}
+                          className='z-0 rounded-full border border-dotted border-gray-300 bg-gray-50 px-2 text-sm/6 font-medium text-gray-500'
+                          >{dish[0].toUpperCase()+dish.slice(1)}</button>
+                      ))}
+                  </div>}
               </div>
               <div className="text-gray-700">
                 <div className="max-w-2xl xl:mx-auto">
