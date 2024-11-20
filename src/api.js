@@ -42,17 +42,26 @@ export async function getDishTypes(){
     }))
     return dataArr
 }
-
-
-
-export async function getRecipes(){
+export async function getRecipesWithUsers(){
     const  querySnapshot = await getDocs(collection(db, "recipes"));
     const dataArr = querySnapshot.docs.map(doc=>({
         ...doc.data(),
         id:doc.id
     }))
-    return dataArr
+    const userIds = [...new Set(dataArr.map((recipe) => recipe.createId))];
+    const usersSnap = await getDocs(query(collection(db, 'users'), where('__name__', 'in',userIds)));
+    const users =Object.fromEntries(usersSnap.docs.map((doc) =>([doc.id, doc.data()])))
+    
+    return dataArr.map((recipe) => ({
+        ...recipe,
+        user: users[recipe.createId],
+      }));
 }
+
+
+
+
+
 // get single document by id from recipes collection 
 export async function getRecipe(id) {
     const docRef = doc(db, 'recipes', id)

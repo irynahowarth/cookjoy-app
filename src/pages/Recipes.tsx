@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Link, useSearchParams, useLoaderData,defer, Await } from 'react-router-dom';
-import { getRecipes, getDishTypes } from '../api';
+import { getRecipesWithUsers, getDishTypes } from '../api';
 import useDishTypes from '../context/useDishTypes';
 import RecipeListCard from '../components/RecipeListCard';
 
@@ -9,7 +9,7 @@ import RecipeListCard from '../components/RecipeListCard';
 type Props = {}
 
 export function loader(){
-  return defer({recipes: getRecipes()});
+  return defer({recipes: getRecipesWithUsers()});
 }
 
 

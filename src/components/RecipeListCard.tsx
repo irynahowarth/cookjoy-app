@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 type Props = {}
 
 export default function RecipeListCard({recipe}: Props) {
+    const userPhoto =  recipe.user.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   return (
     <div className="relative flex flex-col rounded-3xl bg-white p-2 shadow-md shadow-black/5 ring-1 ring-black/5">
         <img 
@@ -23,8 +24,8 @@ export default function RecipeListCard({recipe}: Props) {
             {recipe.description}
         </div>
         <div className="mt-6 flex items-center gap-3">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" className='aspect-square size-6 rounded-full object-cover'/>
-            <div className="text-sm/5 text-gray-700">Ania Heist</div>
+            <img src={userPhoto} alt={recipe.user.name} className='aspect-square size-6 rounded-full object-cover'/>
+            <div className="text-sm/5 text-gray-700">{recipe.user.name}</div>
         </div>
         </div>
     </div>
