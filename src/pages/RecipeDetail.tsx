@@ -2,6 +2,7 @@ import React from 'react'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import {getRecipeWithUser} from '../api'
 import RecipeIngredients from '../components/RecipeIngredients'
+import RecipeInstructions from '../components/RecipeInstructions'
 
 
 type Props = {}
@@ -51,26 +52,7 @@ export default function RecipeDetail({}: Props) {
                     />
                   {recipe.description && <p>{recipe.description}</p>}
                   {recipe?.ingredients && <RecipeIngredients ingredients={recipe.ingredients}/>}
-                  
-
-                  <h3 className='mb-6 mt-12 text-xl/8 font-medium tracking-tight text-gray-950 first:mt-0 last:mb-0'>How to make it</h3>
-                  <ol className="list-decimal pl-4 text-base/8 marker:text-gray-400">
-                    <li className="my-2 pl-2">
-                    Preheat the oven to 375°F.
-                    </li>
-                    <li className="my-2 pl-2">
-                    Prepare the peach filling first by adding the peaches and ¼ cup of sugar to a smaller pot and cook over medium heat for about 3 to 5 minutes just until all the sugar dissolves and the peaches soften a bit. Remove from heat and strain if there is too much liquid. 
-                    </li>
-                    <li className="my-2 pl-2">
-                    In the bowl of your mixer add the cream cheese and mix until smooth. Add the sugar, vanilla extract, egg yolk to the cream cheese and continue mixing until well combined and smooth. 
-                    </li>
-                    <li className="my-2 pl-2">
-                    Using one puff pastry at a time, place it over a lightly floured surface and roll it out into a 14×12 inch rectangle. Cut slits 1 inch apart from the 2 sides of the puff pastry about ⅓ way in, as seen in the pictures. Spoon about half the cream cheese mixture down the center of the pastry and smooth it out.
-                    </li>
-                    <li className="my-2 pl-2">
-                    Next add half the peaches over the cream cheese mixture. Starting at one end, fold the pastry strips over the peach mixture, alternating sides until you completely cover the peach mixture. Repeat with remaining puff pastry and ingredients.
-                    </li>
-                  </ol>
+                  {recipe?.instructions && <RecipeInstructions instructions={recipe.instructions}/>}
                 </div>
             <div className="mt-12">
                 <a href="/recipes" className="inline-flex items-center justify-center px-2 py-1 rounded-lg border border-transparent shadow ring-1 ring-black/10 whitespace-nowrap text-sm font-medium text-gray-950 disabled:bg-transparent hover:bg-gray-50 disabled:opacity-40">
