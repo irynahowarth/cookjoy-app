@@ -1,10 +1,11 @@
 import { Link, useSearchParams } from 'react-router-dom'
+import {formatDate} from '../utils.js'
 
 type Props = {}
 
 export default function RecipeListCard({recipe}: Props) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const recipeTime = recipe.createdAt.toDate().toUTCString('en-gb', { weekday:"long", year:"numeric", month:"short", day:"numeric"}).slice(0,-12)
+    const recipeTime = formatDate(recipe.createdAt.toDate())
     const userPhoto =  recipe.user.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   return (
     <div className="relative flex flex-col rounded-3xl bg-white p-2 shadow-md shadow-black/5 ring-1 ring-black/5">

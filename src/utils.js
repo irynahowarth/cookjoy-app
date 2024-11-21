@@ -12,3 +12,15 @@ export async function requireAuth(request){
     }
     return null
 }
+
+
+
+export function formatDate(date) {
+    const options = {
+      weekday:"short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+    return new Date(date).toLocaleDateString(undefined, options);
+  }

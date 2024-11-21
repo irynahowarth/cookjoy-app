@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom'
 import {getRecipeWithUser} from '../api'
 import RecipeIngredients from '../components/RecipeIngredients'
 import RecipeInstructions from '../components/RecipeInstructions'
-
+import {formatDate} from '../utils.js'
 
 type Props = {}
 
@@ -16,14 +16,14 @@ export default function RecipeDetail({}: Props) {
   const navigate = useNavigate();
   // console.log(recipe)
   const userPhoto =  user.photoURL || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
+  const recipeTime = formatDate(recipe.createdAt.toDate())
   return (
     <main className='mt-16 px-6 lg:px-8'>
       <div className="mx-auto max-w-2xl lg:max-w-7xl px-4 sm:px-6">
         {
         recipe ? (
           <div>
-            <p className="mt-16 font-mono text-xs/5 font-semibold uppercase tracking-widest text-gray-500">Monday, October 14, 2024</p>
+            <p className="mt-16 font-mono text-xs/5 font-semibold uppercase tracking-widest text-gray-500">{recipeTime}</p>
             <h2 className='mt-2 text-pretty text-4xl font-medium tracking-tighter text-gray-950 sm:text-6xl'>{recipe.title}</h2>
             <div className="mt-16 grid grid-cols-1 gap-8 pb-24 lg:grid-cols-[15rem_1fr] xl:grid-cols-[15rem_1fr_15rem]">
               <div className="flex flex-wrap items-center gap-8 max-lg:justify-between lg:flex-col lg:items-start">
