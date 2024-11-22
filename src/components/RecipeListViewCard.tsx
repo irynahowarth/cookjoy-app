@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 type Props = {}
 
 export default function RecipeListViewCard({recipe}: Props) {
+   const navigate = useNavigate();
    const btnStyles='z-0 px-4 py-1 rounded-lg border border-transparent shadow ring-1 ring-black/10 whitespace-nowrap text-sm font-medium text-gray-950 disabled:bg-transparent hover:bg-gray-50 disabled:opacity-40'
   return (
     <li className='relative flex justify-between gap-x-6 py-5'>
@@ -19,7 +20,7 @@ export default function RecipeListViewCard({recipe}: Props) {
         </div>
 
         <div className="flex shrink-0 gap-x-4 sm:items-end">
-            <button className={btnStyles} onClick={()=>console.log('edit')}>Edit</button>
+            <button className={btnStyles} onClick={()=> navigate(`${recipe.id}/edit`)}>Edit</button>
             <button className={btnStyles} onClick={()=>console.log('delite')}>Delete</button>
         </div>
     </li> 

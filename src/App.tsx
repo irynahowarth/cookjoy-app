@@ -27,6 +27,7 @@ import Signup, {action as signupAction} from "./pages/Signup";
 import Profile, {action as profileUpdateAction} from "./pages/Profile";
 import AddNewRecipe, {action as addRecipeAction} from "./pages/Create/AddNewRecipe";
 import EditRecipe from './components/EditRecipe'
+import {action as recipeAction} from './components/RecipeForm'
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />}/>
@@ -75,6 +76,7 @@ const router = createBrowserRouter(createRoutesFromElements(
          <Route 
           path="recipes/:id/edit" 
           element={<EditRecipe />} 
+          action={recipeAction}
         />
          <Route 
           path="recipes/new" 
