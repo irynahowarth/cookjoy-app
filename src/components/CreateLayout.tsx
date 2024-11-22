@@ -12,7 +12,7 @@ export default function CreateLayout({}: Props) {
         <Link to="." className={linkStyles}>Dashboard</Link>
         <Link to="./recipes" className={linkStyles}>My Recipes</Link>
         <Link to="./reviews" className={linkStyles}>Reviews</Link>
-        <Link to="./newrecipe" className={linkStyles}>Add Recipe</Link>
+        <Link to="./recipes/new" className={linkStyles}>Add Recipe</Link>
         </nav>
       <Outlet/>
     </div>
