@@ -2,6 +2,7 @@ import React from 'react'
 import { Await, defer, Link, useLoaderData } from 'react-router-dom';
 import {getCreateRecipes} from "../../api"
 import {requireAuth} from "../../utils"
+import RecipeListViewCard from '../../components/RecipeListViewCard';
 
 type Props = {}
 
@@ -15,17 +16,15 @@ export default function CreateRecipes({}: Props) {
   
   function renderCreateRecipes(recipes){
     const recipeElements = recipes.map((rec:RecipeProps) => (
-      <Link 
-        to={`./${rec.id}`} 
-        key={rec.id}
-        aria-label={`View details for ${rec.title}`}
-      >
-        <div><p>{rec.title}</p></div>
-      </Link>
+        <RecipeListViewCard recipe={rec} key={rec.id}/>
     ))
     return (
-      <section>
-        {recipeElements}
+      <section className='py-6'>
+        <div className="">
+          <ul className="divide-y divide-gray-200" role="list">
+            {recipeElements}
+          </ul>
+        </div>
       </section>
     )
   }
