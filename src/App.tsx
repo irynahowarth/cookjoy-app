@@ -81,7 +81,7 @@ const router = createBrowserRouter(createRoutesFromElements(
          <Route 
           path="recipes/new" 
           element={<AddNewRecipe />} 
-          action={addRecipeAction}
+          action={recipeAction}
         />
 
         <Route 
