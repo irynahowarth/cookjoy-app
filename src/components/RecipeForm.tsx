@@ -10,13 +10,11 @@ type Props = {}
 export async function action({request, params}){
   const formData =  await request.formData();
   const recipeData = Object.fromEntries(formData);
-  
-  console.log(params.id)
 
   try{
     const result = params.id
       // If an ID exists, update the recipe
-      ? await updateRecipe(formData)
+      ? await updateRecipe(params.id, formData)
         //Otherwise, add a new recipe
       :await addNewRecipe(formData);
 
@@ -43,13 +41,13 @@ export default function RecipeForm({
     description: initValues.description || "",
     ingredients: initValues.ingredients || [{ name: "", amount: "", unit: "" }],
     dishTypes: initValues.dishTypes || [],
-    instructions: initValues.instructions || "",
+    instructions: initValues.instructions.join("\n") || [],
   });
   const [submitted, setSubmitted] = React.useState(false)
   // const [ingredients, setIngredients] = React.useState([{ name: '', amount: '', unit: '' }]);
   const { dishTypes, loading } = useDishTypes();
   const actionData = useActionData();
-  const navigate = useNavigate();
+
 
   // Reset form fields
   const resetForm = () => {
@@ -117,7 +115,9 @@ export default function RecipeForm({
   const labelStyles ='text-sm/5 font-medium'
   const darkBtnStyles = 'inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-transparent bg-gray-950 shadow-md whitespace-nowrap text-base font-medium text-white disabled:bg-gray-950 hover:bg-gray-800 disabled:opacity-40'
   const lightBtnStyles = 'relative inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-transparent bg-white/15 shadow-md ring-1 ring-[#D15052]/15 after:absolute after:inset-0 after:rounded-full  whitespace-nowrap text-base font-medium text-gray-950 disabled:bg-white/15 hover:bg-white/20 disabled:opacity-40'
+
     
+
   return (
     <div>
       <div>

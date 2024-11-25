@@ -219,3 +219,26 @@ export async function addNewRecipe(data) {
     }
       
 }
+export async function updateRecipe(recipeId, data){
+
+    const recipeData = {
+        title: data.get('title'),
+        servings: parseInt(data.get('servings'), 10),
+        description: data.get('description'),
+        dishTypes: data.getAll('dishTypes') || [],
+        ingredients: JSON.parse(data.get('ingredients')),
+        instructions: data.get('instructions').split('\n').map(step => step.trim()).filter(step => step)
+      };
+      console.log({recipeData})
+
+    if (!recipeId) {
+        throw new Error("Recipe ID is required to update a recipe.");
+    }
+    try{
+        const recipeRef =  doc(db, "recipes", recipeId);
+        await updateDoc(recipeRef, recipeData);
+        return { success: true, id: recipeRef.id };
+    } catch(e){
+        throw new Error(`Error updating document: ${e.message}`);
+    }
+}
