@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, redirect, useActionData, useNavigate } from 'react-router-dom';
 import useDishTypes from '../context/useDishTypes';
-import {addNewRecipe} from '../api'
+import {addNewRecipe, updateRecipe} from '../api'
 
 type Props = {}
 
@@ -13,32 +13,28 @@ export async function action({request, params}){
   
   console.log(params.id)
 
-    if (params.id) {
-        // If an ID exists, update the recipe
-        console.log('update')
-        return redirect(`/recipes/${params.id}`);
-      } else {
+  try{
+    const result = params.id
+      // If an ID exists, update the recipe
+      ? await updateRecipe(formData)
         //Otherwise, add a new recipe
-        console.log('new recipe')
-        try {
-          const result = await addNewRecipe(formData);
-      
-          // Return success response with recipe ID
-          if (result.success) {
-            return { success: true, id: result.id };
-          } else {
-            return { success: false, error: 'Failed to add recipe' };
-          }
-        } catch (error) {
-          // Handle errors during recipe addition
-          return { success: false, error: error.message || 'Unknown error occurred' };
-        } 
-      }
+      :await addNewRecipe(formData);
+
+    if (result.success) {
+      return { success: true, id: result.id };
+    } else {
+      return { success: false, error: 'Failed to save recipe' };
+    }
+  } catch(error){
+      // Handle errors during recipe update
+      return { success: false, error: error.message || 'Unknown error occurred' };
+  }
+  // return redirect(`/recipes/${params.id}`);
 
 }
 
 export default function RecipeForm({ 
-  initValues,  
+  initValues,   
   submitButtonLabel }: Props) {
   
   const [formState, setFormState] = React.useState({
@@ -50,14 +46,14 @@ export default function RecipeForm({
     instructions: initValues.instructions || "",
   });
   const [submitted, setSubmitted] = React.useState(false)
-  const [ingredients, setIngredients] = React.useState([{ name: '', amount: '', unit: '' }]);
+  // const [ingredients, setIngredients] = React.useState([{ name: '', amount: '', unit: '' }]);
   const { dishTypes, loading } = useDishTypes();
   const actionData = useActionData();
   const navigate = useNavigate();
 
   // Reset form fields
   const resetForm = () => {
-      setIngredients([{ name: '', amount: '', unit: '' }]);
+    setFormState((prev)=>({ ...prev, ingredients: [{ name: '', amount: '', unit: '' }]}))
   };
   // Set submitted state when actionData is available 
   React.useEffect(() => {
@@ -73,22 +69,47 @@ export default function RecipeForm({
   }
 
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    setFormState((prev) => ({
+      ...prev,
+      dishTypes: checked
+        ? [...prev.dishTypes, value]
+        : prev.dishTypes.filter((type) => type !== value),
+    }));
+  };
+
+
   // Handle ingredient field change
   const handleIngredientChange = (index, field, value) => {
-    const newIngredients = [...ingredients];
-    newIngredients[index][field] = value;
-    setIngredients(newIngredients);
+    setFormState((prev) => {
+      const updatedIngredients = [...prev.ingredients];
+      updatedIngredients[index][field] = value;
+      return { ...prev, ingredients: updatedIngredients };
+    });
   };
+
    // Serialize ingredients to a JSON string
-  const serializeIngredients = () => JSON.stringify(ingredients);
+  const serializeIngredients = () => JSON.stringify(formState.ingredients);
   // Add new ingredient field
   const addIngredient = () => {
-      setIngredients([...ingredients, { name: '', amount: '', unit: '' }]);
+      setFormState((prev) => ({
+        ...prev,
+        ingredients: [...prev.ingredients, { name: "", amount: "", unit: "" }],
+      }));
   };
 
   // Remove ingredient field
   const removeIngredient = (index) => {
-      setIngredients(ingredients.filter((_, i) => i !== index));
+    setFormState((prev) => ({
+      ...prev,
+      ingredients: prev.ingredients.filter((_, i) => i !== index),
+    }));
   };
 
   const allDishTypes= dishTypes.map(el=>el?.name)     
@@ -113,6 +134,8 @@ export default function RecipeForm({
               id="title"
               type="text" 
               placeholder="Enter recipe's title"
+              value={formState.title}
+              onChange={handleInputChange}
               />
           </div>
           <div className="mt-6 space-y-3">
@@ -127,6 +150,8 @@ export default function RecipeForm({
                 id="servings"
                 type="number" 
                 placeholder="Number of servings"
+                value={formState.servings}
+                onChange={handleInputChange}
                 />
             </div>
             <div className="mt-6 space-y-3">
@@ -140,6 +165,8 @@ export default function RecipeForm({
                         name="dishTypes"
                         value={type}
                         className="mr-2"
+                        checked={formState.dishTypes.includes(type)}
+                        onChange={handleCheckboxChange}
                         />
                         <label htmlFor={`dishType-${type}`} className="text-sm">
                         {type}
@@ -158,12 +185,14 @@ export default function RecipeForm({
                 id="description"
                 rows="3"
                 className={inputStyles}
-                ></textarea>
+                value={formState.description}
+                onChange={handleInputChange}
+                />
             </div>
             {/* Ingredients List */}
             <div className="mt-6 space-y-3">
             <label className={labelStyles}>Ingredients</label>
-            {ingredients.map((ingredient, index) => (
+            {formState.ingredients.map((ingredient, index) => (
                 <div key={index} className="flex gap-2 items-center">
                 <input
                     type="text"
@@ -214,7 +243,9 @@ export default function RecipeForm({
                 placeholder="Enter step-by-step instructions"
                 required
                 className={inputStyles}
-                ></textarea>
+                value={formState.instructions}
+                onChange={handleInputChange}
+                />
             </div>
           <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
                 <button 

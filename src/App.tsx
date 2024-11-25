@@ -26,7 +26,7 @@ import RequireAuth from "./RequireAuth";
 import Signup, {action as signupAction} from "./pages/Signup";
 import Profile, {action as profileUpdateAction} from "./pages/Profile";
 import AddNewRecipe, {action as addRecipeAction} from "./pages/Create/AddNewRecipe";
-import EditRecipe from './components/EditRecipe'
+import EditRecipe from './pages/Create/EditRecipe'
 import {action as recipeAction} from './components/RecipeForm'
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout />}>
