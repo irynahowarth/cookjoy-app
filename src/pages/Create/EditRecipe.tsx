@@ -7,6 +7,7 @@ type Props = {}
 
 export default function EditRecipe({}: Props) {
   const [submitted, setSubmitted] = React.useState(false)
+  const [loading, setLoading] = React.useState(true);
   const [recipe, setRecipe] = React.useState(null);
   const actionData = useActionData()
   const navigate = useNavigate();
@@ -19,13 +20,28 @@ export default function EditRecipe({}: Props) {
     navigate(basePath);
   };
 
-  React.useEffect(()=>{
-    async function loadRecipe(){
+  const fetchRecipe = async()=> {
+    setLoading(true);
+    try{
       const recipeData =  await getRecipe(id)
       setRecipe(recipeData)
+    } catch(e){
+      throw new Error(`Error loading recipe: ${e?.message}`)
+    }finally{
+      setLoading(false);
     }
-    loadRecipe()
+  }
+
+  React.useEffect(()=>{
+    fetchRecipe()
   },[id])
+
+  // Handle "Edit again" button click
+  const handleEditAgain = () => {
+    setSubmitted(false);
+    fetchRecipe();
+  };
+
 
   React.useEffect(() => {
     if (actionData) {
@@ -33,7 +49,7 @@ export default function EditRecipe({}: Props) {
     }
 }, [actionData])
 
-  if (!recipe) {
+  if (loading) {
     return <p>Loading recipe for editing...</p>;
   }
 
@@ -52,7 +68,7 @@ export default function EditRecipe({}: Props) {
           <div className="mt-6">
           <p className="text-green-600 mb-6">Recipe updated successfully!</p>
           <button
-            onClick={() => setSubmitted(false)}
+            onClick={handleEditAgain}
             className={darkBtnStyles}
           >
            Edit again
