@@ -46,7 +46,7 @@ export default function EditRecipe({}: Props) {
       {!submitted ? (
         <RecipeForm
           initValues={recipe}
-          submitButtonLabel="Edit Recipe"
+          submitButtonLabel="Update"
         />
       ): (
           <div className="mt-6">

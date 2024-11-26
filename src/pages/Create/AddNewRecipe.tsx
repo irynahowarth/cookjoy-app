@@ -34,8 +34,7 @@ export default function AddNewRecipe({}: Props) {
       {!submitted ? (
       <RecipeForm
         initValues={{}}
-        // onSubmit={handleAddRecipe}
-        submitButtonLabel="Edit Recipe"
+        submitButtonLabel="Add new"
       />
     ): (
          <div className="mt-6">

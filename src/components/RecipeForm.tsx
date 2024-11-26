@@ -32,8 +32,8 @@ export async function action({request, params}){
 }
 
 export default function RecipeForm({ 
-  initValues,   
-  submitButtonLabel }: Props) {
+  initValues = {},   
+  submitButtonLabel = 'Save' }: Props) {
   
   const [formState, setFormState] = React.useState({
     title: initValues.title || "",
@@ -41,10 +41,8 @@ export default function RecipeForm({
     description: initValues.description || "",
     ingredients: initValues.ingredients || [{ name: "", amount: "", unit: "" }],
     dishTypes: initValues.dishTypes || [],
-    instructions: initValues.instructions.join("\n") || [],
+    instructions: (initValues.instructions || []).join("\n"),
   });
-  const [submitted, setSubmitted] = React.useState(false)
-  // const [ingredients, setIngredients] = React.useState([{ name: '', amount: '', unit: '' }]);
   const { dishTypes, loading } = useDishTypes();
   const actionData = useActionData();
 
@@ -57,7 +55,6 @@ export default function RecipeForm({
   React.useEffect(() => {
     if (actionData) {
         resetForm();
-        setSubmitted(true);
     }
   }, [actionData])
 
@@ -251,7 +248,7 @@ export default function RecipeForm({
                 <button 
                     type='submit'
                     className={darkBtnStyles}
-                >Save recipe</button>
+                > {submitButtonLabel? submitButtonLabel: 'Save'} recipe</button>
                 <button 
                     type='reset'
                     className={lightBtnStyles}
