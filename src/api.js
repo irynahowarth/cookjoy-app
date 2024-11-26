@@ -229,7 +229,6 @@ export async function updateRecipe(recipeId, data){
         ingredients: JSON.parse(data.get('ingredients')),
         instructions: data.get('instructions').split('\n').map(step => step.trim()).filter(step => step)
       };
-      console.log({recipeData})
 
     if (!recipeId) {
         throw new Error("Recipe ID is required to update a recipe.");

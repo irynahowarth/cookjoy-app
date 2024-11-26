@@ -36,12 +36,12 @@ export default function RecipeForm({
   submitButtonLabel = 'Save' }: Props) {
   
   const [formState, setFormState] = React.useState({
-    title: initValues.title || "",
-    servings: initValues.servings || 1,
-    description: initValues.description || "",
-    ingredients: initValues.ingredients || [{ name: "", amount: "", unit: "" }],
+    title: initValues?.title || "",
+    servings: initValues?.servings || 1,
+    description: initValues?.description || "",
+    ingredients: initValues?.ingredients || [{ name: "", amount: "", unit: "" }],
     dishTypes: initValues.dishTypes || [],
-    instructions: (initValues.instructions || []).join("\n"),
+    instructions: initValues?.instructions?.join("\n" || []),
   });
   const { dishTypes, loading } = useDishTypes();
   const actionData = useActionData();
@@ -49,8 +49,20 @@ export default function RecipeForm({
 
   // Reset form fields
   const resetForm = () => {
-    setFormState((prev)=>({ ...prev, ingredients: [{ name: '', amount: '', unit: '' }]}))
+    setFormState({
+      title: initValues?.title || "",
+      servings: initValues?.servings || 1,
+      description: initValues?.description || "",
+      ingredients: initValues?.ingredients || [{ name: "", amount: "", unit: "" }],
+      dishTypes: initValues?.dishTypes || [],
+      instructions: initValues?.instructions?.join("\n") || "",
+    });
   };
+  React.useEffect(() => {
+        resetForm();
+  }, [initValues])
+
+
   // Set submitted state when actionData is available 
   React.useEffect(() => {
     if (actionData) {
