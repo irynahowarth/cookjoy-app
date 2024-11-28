@@ -42,6 +42,7 @@ export default function RecipeForm({
     ingredients: initValues?.ingredients || [{ name: "", amount: "", unit: "" }],
     dishTypes: initValues.dishTypes || [],
     instructions: initValues?.instructions?.join("\n" || []),
+    image: initValues?.image || "",
   });
   const { dishTypes, loading } = useDishTypes();
   const actionData = useActionData();
@@ -56,11 +57,23 @@ export default function RecipeForm({
       ingredients: initValues?.ingredients || [{ name: "", amount: "", unit: "" }],
       dishTypes: initValues?.dishTypes || [],
       instructions: initValues?.instructions?.join("\n") || "",
+      image: initValues?.image || "",
     });
   };
+
+  const [imageFile, setImageFile] = React.useState(null)
+  const [uploading, setUploading] = React.useState(false)
+
   React.useEffect(() => {
         resetForm();
   }, [initValues])
+
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]);
+    }
+  };
 
 
   // Set submitted state when actionData is available 
@@ -198,6 +211,25 @@ export default function RecipeForm({
                 onChange={handleInputChange}
                 />
             </div>
+                  
+            {/* Image upload */}
+            <div className="mt-6 space-y-3">
+              <label htmlFor="image" className={labelStyles}>Upload Image</label>
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                onChange={handleImageChange}
+                className={inputStyles}
+              />
+              {formState.image && !imageFile && (
+                <div className="mt-6 space-y-3">
+                  <p className={labelStyles}>Current Image</p>
+                  <img src={formState.image} alt="Recipe" className="max-w-xs mt-2" />
+                </div>
+              )}
+            </div>
+
             {/* Ingredients List */}
             <div className="mt-6 space-y-3">
             <label className={labelStyles}>Ingredients</label>
@@ -260,7 +292,8 @@ export default function RecipeForm({
                 <button 
                     type='submit'
                     className={darkBtnStyles}
-                > {submitButtonLabel? submitButtonLabel: 'Save'} recipe</button>
+                    disabled={uploading}
+                > {uploading ? "Uploading..." : (submitButtonLabel? submitButtonLabel: 'Save')} recipe</button>
                 <button 
                     type='reset'
                     className={lightBtnStyles}
